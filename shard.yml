@@ -1,0 +1,13 @@
+name: vox
+version: 0.1.0
+
+authors:
+  - Hugh Bien <hugh@hughbien.com>
+
+targets:
+  vox:
+    main: src/cli.cr
+
+crystal: 0.34.0
+
+license: BSD

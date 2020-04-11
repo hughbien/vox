@@ -1,1 +1,5 @@
-*Hello, World!*
+---
+name: "John Doe"
+---
+
+*Hello, {{name}}!*

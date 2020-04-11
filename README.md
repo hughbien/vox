@@ -12,16 +12,44 @@ Or checkout this repo and run `make build`. The binary should be located in `bin
 
 ## Usage
 
-Vox looks for a `.vox.yml` or `vox.yml` in the current directory. A basic configuration would be:
+A default directory sturcture looks like this:
 
-```yml
-render.pages:
-  src: "src/*.md"
-  target: "target"
-  layout: "src/layout/page.html.ecr"
+```
+root
+| src/
+    | assets/
+        | hello_world.jpg
+    | css/
+        | reset.css
+        | styles.css
+    | js/
+        | library.js
+        | script.js
+    | layouts/
+        | site.html.ecr
+    | about.md
+    | contact.md
+    | index.md
 ```
 
-Running `vox` will create a `target` directory with every Markdown page rendered as HTML.
+Running `vox` will generate a target directory with:
+
+* fingerprinted assets
+* minified and fingerprinted js/css
+* rendered HTML
+
+```
+root
+| src/...
+| target/
+    | assets/
+        | hello_world.{{fingerprint}}.jpg
+    | all.{{fingerprint}}.css
+    | all.{{fingerprint}}.js
+    | about.html
+    | contact.html
+    | index.html
+```
 
 ## Development
 
@@ -40,20 +68,21 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add markdown rendering
 * add layout rendering via Kilt
-* add reading from YAML config
-* add dbs: via yaml, all front-matter, db generation
-* add front-matter YAML
-* add front-matter configs: layout, path (or target_filename)
-* add front-matter yaml injection
-* add multi-render templates via Kilt
+* add multi-render templates
 * add asset pipeline: compress, concat, fingerprint
+* add reading from YAML config
+* add reading from YAML db (db <- layout front matter <- page front matter)
+* add front-matter YAML (eg layout, path, render engine, etc...)
+* add yaml injection: db, front-matter
+* add configs: ignore, css/js bundling
 * add base64 encoding assets
 * add hooks
 * add blog
+* add lists
 * add rss
-* add drip rss
+* add rss categories
+* add rss drip
 * add sitemap
 * add generator (for common nginx/htaccess/Makefile/gitignore/fonts/icons/etc...)
 

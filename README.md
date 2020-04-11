@@ -72,10 +72,10 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add yaml front-matter
 * add yaml config
 * add yaml db
 * add yaml injection: db, front-matter
+* finalize yaml variable scopes
 * add render partial
 * add asset pipeline: compress, concat, fingerprint
 * add asset base64

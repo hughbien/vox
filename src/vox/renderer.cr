@@ -17,8 +17,7 @@ class Vox::Renderer
   def render(src : String)
     target = default_target(src)
     make_target_dir(target)
-    source = File.read(src)
-    args = Hash(String, String).new
+    args, source = FrontMatter.split_file(src)
 
     body = File.extname(src) == ".md" ? render_markdown(source, args) : render_html(source, args)
     File.write(target, render_mustache(File.read(default_layout), {"body" => body}))

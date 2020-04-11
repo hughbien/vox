@@ -20,8 +20,8 @@ describe Vox::Renderer do
 
   before_each do
     uuid = UUID.random
-    File.write(src_md, "*#{uuid.to_s}*")
-    File.write(src_html, "<b>#{uuid.to_s}</b>")
+    File.write(src_md, "---\nkey: #{uuid}\n---\n*{{key}}*")
+    File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{key2}}</b>")
     FileUtils.rm_rf(File.dirname(target)) if Dir.exists?(File.dirname(target))
   end
 

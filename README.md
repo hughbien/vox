@@ -26,7 +26,8 @@ root
         | library.js
         | script.js
     | layouts/
-        | site.html.ecr
+        | site.html
+    | 404.md
     | about.md
     | contact.md
     | index.md
@@ -44,8 +45,11 @@ root
 | target/
     | assets/
         | hello_world.{{fingerprint}}.jpg
-    | all.{{fingerprint}}.css
-    | all.{{fingerprint}}.js
+    | css/
+        | all.{{fingerprint}}.css
+    | js/
+        | all.{{fingerprint}}.js
+    | 404.html
     | about.html
     | contact.html
     | index.html
@@ -68,8 +72,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add layout rendering via Kilt
-* add multi-render templates
+* add content html rendering w/ mustache
+* add content markdown rendering w/ mustache
+* add partials rendering
 * add asset pipeline: compress, concat, fingerprint
 * add reading from YAML config
 * add reading from YAML db (db <- layout front matter <- page front matter)
@@ -77,6 +82,7 @@ make run ARGS=-h             # run vox with local arguments
 * add yaml injection: db, front-matter
 * add configs: ignore, css/js bundling
 * add base64 encoding assets
+* add clean task
 * add hooks
 * add blog
 * add lists

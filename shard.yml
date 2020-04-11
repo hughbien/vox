@@ -12,6 +12,9 @@ dependencies:
   common_marker:
     github: mamantoha/crystal-cmark-gfm
     version: ~> 0.3
+  crustache:
+    github: MakeNowJust/crustache
+    version: ~> 2.4
 
 crystal: 0.34.0
 

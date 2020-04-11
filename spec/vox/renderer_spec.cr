@@ -6,13 +6,15 @@ include Vox
 describe Vox::Renderer do
   root = File.join(__DIR__, "../../tmp")
   src = File.join(root, "src/source.md")
+  layout = File.join(root, "src/layouts/site.html")
   target = File.join(root, "target/source.html")
 
   uuid = UUID.random
   renderer = Renderer.new(root)
 
   before_all do
-    FileUtils.mkdir_p(File.dirname(src))
+    FileUtils.mkdir_p(File.dirname(layout))
+    File.write(layout, "<html>{{{body}}}</html>")
   end
 
   before_each do
@@ -30,6 +32,8 @@ describe Vox::Renderer do
       renderer.render(src)
       html = File.read(target)
       html.should contain("<em>#{uuid.to_s}</em>")
+      html.should contain("<html>")
+      html.should contain("</html>")
     end
   end
 end

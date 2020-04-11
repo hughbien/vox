@@ -72,17 +72,15 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add content html rendering w/ mustache
-* add content markdown rendering w/ mustache
-* add partials rendering
-* add asset pipeline: compress, concat, fingerprint
-* add reading from YAML config
-* add reading from YAML db (db <- layout front matter <- page front matter)
-* add front-matter YAML (eg layout, path, render engine, etc...)
+* add yaml front-matter
+* add yaml config
+* add yaml db
 * add yaml injection: db, front-matter
-* add configs: ignore, css/js bundling
-* add base64 encoding assets
-* add clean task
+* add render partial
+* add asset pipeline: compress, concat, fingerprint
+* add asset base64
+* add configs: ignore, css/js bundling, target
+* add clean
 * add hooks
 * add blog
 * add lists
@@ -90,7 +88,8 @@ make run ARGS=-h             # run vox with local arguments
 * add rss categories
 * add rss drip
 * add sitemap
-* add generator (for common nginx/htaccess/Makefile/gitignore/fonts/icons/etc...)
+* add generator: Makefile, gitignore
+* add generator customize: nginx/htaccess, fonts, icons, reset css
 
 ## License
 

@@ -17,9 +17,15 @@ class Vox::Renderer
   def render(src : String)
     target = default_target(src)
     make_target_dir(target)
-    layout = Crustache.parse(File.read(default_layout))
-    body = render_markdown(File.read(src))
-    File.write(target, Crustache.render(layout, {"body" => body}))
+    source = File.read(src)
+    args = Hash(String, String).new
+
+    body = File.extname(src) == ".md" ? render_markdown(source, args) : render_html(source, args)
+    File.write(target, render_mustache(File.read(default_layout), {"body" => body}))
+  end
+
+  private def make_target_dir(target : String)
+    FileUtils.mkdir_p(File.dirname(target))
   end
 
   private def default_target(src : String)
@@ -30,13 +36,17 @@ class Vox::Renderer
     File.join(@layouts_dir, "site.html")
   end
 
-  private def make_target_dir(target : String)
-    FileUtils.mkdir_p(File.dirname(target))
+  private def render_mustache(template : String, arguments)
+    Crustache.render(Crustache.parse(template), arguments)
   end
 
-  private def render_markdown(markdown : String)
+  private def render_html(html : String, arguments)
+    render_mustache(html, arguments)
+  end
+
+  private def render_markdown(markdown : String, arguments)
     CommonMarker.new(
-      markdown,
+      render_mustache(markdown, arguments),
       options: OPTIONS,
       extensions: EXTENSIONS
     ).to_html

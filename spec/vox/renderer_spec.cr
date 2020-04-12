@@ -11,7 +11,8 @@ describe Vox::Renderer do
   target = File.join(root, "target/source.html")
 
   uuid = UUID.random
-  renderer = Renderer.new(root)
+  config = Config.parse("root_dir: #{root}")
+  renderer = Renderer.new(config)
 
   before_all do
     FileUtils.mkdir_p(File.dirname(layout))

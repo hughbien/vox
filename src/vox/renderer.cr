@@ -7,11 +7,11 @@ class Vox::Renderer
   EXTENSIONS = ["table", "strikethrough", "autolink", "tagfilter", "tasklist"]
   OPTIONS = ["unsafe"]
 
-  def initialize(root_dir : String)
-    @root_dir = File.expand_path(root_dir)
-    @src_dir = File.join(@root_dir, "src")
-    @target_dir = File.join(@root_dir, "target")
-    @layouts_dir = File.join(@src_dir, "layouts")
+  @config : Config
+
+  delegate src_dir, target_dir, layouts_dir, to: @config
+
+  def initialize(@config)
   end
 
   # TODO: handle file not found errors
@@ -29,11 +29,11 @@ class Vox::Renderer
   end
 
   private def default_target(src : String)
-    File.expand_path(src).sub(@src_dir, @target_dir).sub(/\.md$/, ".html")
+    File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
   end
 
   private def default_layout
-    File.join(@layouts_dir, "site.html")
+    File.join(layouts_dir, "site.html")
   end
 
   private def render_mustache(template : String, arguments)

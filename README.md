@@ -72,23 +72,23 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* add asset minify (via uglify/yui/custom/cat)
+* add asset fingerprint
+* add mustache processing in css/js
+* add configs: ignore render/mustache, css/js/asset minify/fingerprint, target
 * add yaml db
-* add yaml injection: db, front-matter
-* finalize yaml variable scopes
+* finalize yaml variables/scopes
 * add render partial
-* add asset pipeline: compress, concat, fingerprint
-* add asset base64
-* add configs: ignore, css/js bundling, target
-* add clean
-* add hooks
-* add blog
-* add lists
-* add rss
-* add rss categories
-* add rss drip
+* add clean task
+* add hooks: before/after all, before/after/after-fingerprint each
+* add blog, lists
+* add rss, categories, drip
 * add sitemap
-* add generator: Makefile, gitignore
+* add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css
+* add asset encode
+* add asset sprite (via glue, include retina)
+* add yaml injection tools: db, front-matter
 
 ## License
 

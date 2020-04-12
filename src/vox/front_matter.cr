@@ -6,6 +6,7 @@ module Vox::FrontMatter
 
   EMPTY_YAML = Hash(YAML::Any, YAML::Any).new
 
+  # TODO: handle carriage returns, whitespace after dashes, invalid YAML
   def split(text)
     return {EMPTY_YAML, text} unless text =~ /^---\n/
 
@@ -14,6 +15,7 @@ module Vox::FrontMatter
     {YAML.parse(yaml).as_h, text}
   end
 
+  # TODO: handle file not found error
   def split_file(path)
     split(File.read(path))
   end

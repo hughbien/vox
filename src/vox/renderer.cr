@@ -14,6 +14,7 @@ class Vox::Renderer
     @layouts_dir = File.join(@src_dir, "layouts")
   end
 
+  # TODO: handle file not found errors
   def render(src : String)
     target = default_target(src)
     make_target_dir(target)

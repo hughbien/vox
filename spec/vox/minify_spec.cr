@@ -56,10 +56,23 @@ describe Vox::Minify do
       css.includes?("comment").should be_false
     end
 
+    it "raises when trying to remove source from outside target" do
+      expect_raises(Error, /Minify can only remove source in target dir/) do
+        minify.run([js_src1, js_src2], remove_sources: true)
+      end
+    end
+
     it "removes original sources" do
-      minify.run([js_src1, js_src2], remove_sources: true).should eq(js_target)
-      File.exists?(js_src1).should be_false
-      File.exists?(js_src2).should be_false
+      js_min1 = File.join(root, "target/one.js")
+      js_min2 = File.join(root, "target/two.js")
+      FileUtils.mkdir_p(File.join(root, "target"))
+      File.write(js_min1, "var js1=true")
+      File.write(js_min2, "var js2=true")
+
+      minify.run([js_min1, js_min2], remove_sources: true).should eq(js_target)
+      File.exists?(js_min1).should be_false
+      File.exists?(js_min2).should be_false
+      File.exists?(js_target).should be_true
     end
 
     it "does nothing with zero sources" do

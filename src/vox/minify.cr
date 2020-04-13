@@ -49,13 +49,19 @@ class Vox::Minify
   def run(sources : Array(String), remove_sources = false)
     return if sources.empty?
 
+    sources = sources.map { |source| File.expand_path(source) }
     extname = File.extname(sources.first)
     strategy = MinifyStrategy.from_extname(extname)
     target = MinifyStrategy.default_target(@config, extname)
     FileUtils.mkdir_p(File.dirname(target))
     strategy.run(sources, target)
 
-    FileUtils.rm(sources) if remove_sources
+    if remove_sources
+      sources.each do |source|
+        raise Error.new("Minify can only remove source in target dir: #{source}") unless source.starts_with?(@config.target_dir)
+      end
+      FileUtils.rm(sources)
+    end
     target
   end
 

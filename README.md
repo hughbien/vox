@@ -73,7 +73,6 @@ make run ARGS=-h             # run vox with local arguments
 ## TODO
 
 * refactor spec_helper: root/src/target handling
-* add asset fingerprint for non-css/js
 * add configs: ignore render/mustache, css/js/asset minify/fingerprint, target
 * add copy unrecognize-able file extensions (dedicated js/css/assets directory required?)
 * add yaml db

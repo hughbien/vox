@@ -6,8 +6,13 @@ class Vox::Command
     src_path = File.join(".", "src")
 
     renderer = Renderer.new(config)
+    copy = Copy.new(config)
     minify = Minify.new(config)
     fingerprint = Fingerprint.new(config)
+
+    Dir.glob(File.join(src_path, "assets/*")).each do |asset|
+      fingerprint.run(copy.run(asset))
+    end
 
     target_css = Dir.glob(File.join(src_path, "css/*.css")).map do |css|
       renderer.render(css).not_nil!

@@ -26,13 +26,10 @@ class Vox::Renderer
 
     body = File.extname(src) == ".md" ?
       render_markdown(source, args) :
-      render_html(source, args)
+      render_mustache(source, args)
     File.write(
       target,
-      render_mustache(
-        File.read(default_layout),
-        {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
-      )
+      File.extname(target) == ".html" ? render_layout(body, page) : body
     )
     target
   end
@@ -53,15 +50,18 @@ class Vox::Renderer
     Crustache.render(Crustache.parse(template), arguments)
   end
 
-  private def render_html(html : String, arguments)
-    render_mustache(html, arguments)
-  end
-
   private def render_markdown(markdown : String, arguments)
     CommonMarker.new(
       render_mustache(markdown, arguments),
       options: OPTIONS,
       extensions: EXTENSIONS
     ).to_html
+  end
+
+  private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
+    render_mustache(
+      File.read(default_layout),
+      {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
+    )
   end
 end

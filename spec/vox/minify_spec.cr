@@ -34,6 +34,8 @@ describe Vox::Minify do
   describe "#run" do
     it "minifies js" do
       minify.run([js_src1, js_src2]).should eq(js_target)
+      File.exists?(js_src1).should be_true
+      File.exists?(js_src2).should be_true
       File.exists?(css_target).should be_false
 
       js = File.read(js_target)
@@ -44,12 +46,20 @@ describe Vox::Minify do
 
     it "minifies css" do
       minify.run([css_src1, css_src2]).should eq(css_target)
+      File.exists?(css_src1).should be_true
+      File.exists?(css_src2).should be_true
       File.exists?(js_target).should be_false
 
       css = File.read(css_target)
       css.includes?("a.css1{font-weight:bold}").should be_true
       css.includes?("a.css2{font-style:italic}").should be_true
       css.includes?("comment").should be_false
+    end
+
+    it "removes original sources" do
+      minify.run([js_src1, js_src2], remove_sources: true).should eq(js_target)
+      File.exists?(js_src1).should be_false
+      File.exists?(js_src2).should be_false
     end
 
     it "does nothing with zero sources" do

@@ -46,7 +46,7 @@ class Vox::Minify
   def initialize(@config)
   end
 
-  def run(sources : Array(String))
+  def run(sources : Array(String), remove_sources = false)
     return if sources.empty?
 
     extname = File.extname(sources.first)
@@ -54,6 +54,8 @@ class Vox::Minify
     target = MinifyStrategy.default_target(@config, extname)
     FileUtils.mkdir_p(File.dirname(target))
     strategy.run(sources, target)
+
+    FileUtils.rm(sources) if remove_sources
     target
   end
 

@@ -1,2 +1,6 @@
+---
+a: "one"
+---
+
 // No Script
-var a = "one";
+var a = "{{page.a}}";

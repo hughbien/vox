@@ -7,8 +7,10 @@ describe Vox::Renderer do
   root = File.expand_path(File.join(__DIR__, "../../tmp"))
   src_md = File.join(root, "src/source.md")
   src_html = File.join(root, "src/source.html")
+  src_css = File.join(root, "src/source.css")
   layout = File.join(root, "src/layouts/site.html")
   target = File.join(root, "target/source.html")
+  target_css = File.join(root, "target/source.css")
 
   uuid = UUID.random
   config = Config.parse("root_dir: #{root}")
@@ -25,6 +27,7 @@ describe Vox::Renderer do
     uuid = UUID.random
     File.write(src_md, "---\nkey: #{uuid}\n---\n*{{page.key}}*\nfingerprint:{{fingerprint.renderer-page}}")
     File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{page.key2}}</b>\nfingerprint:{{fingerprint.renderer-page}}")
+    File.write(src_css, "---\ncolor: \"#000\"\n---\ntext-color:{{page.color}}\n")
     FileUtils.rm_rf(File.dirname(target)) if Dir.exists?(File.dirname(target))
   end
 
@@ -57,6 +60,16 @@ describe Vox::Renderer do
       html.should contain("fingerprint:layout-value")
       html.should contain("<html>")
       html.should contain("</html>")
+    end
+
+    it "renders source CSS into target CSS" do
+      rendered_path = renderer.render(src_css)
+      rendered_path.should eq(target_css)
+
+      css = File.read(target_css)
+      css.should contain("text-color:#000")
+      css.should_not contain("<html>")
+      css.should_not contain("</html>")
     end
   end
 end

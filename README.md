@@ -72,7 +72,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add asset minify (via uglify/yui/custom/cat)
 * add asset fingerprint
 * add mustache processing in css/js
 * add configs: ignore render/mustache, css/js/asset minify/fingerprint, target

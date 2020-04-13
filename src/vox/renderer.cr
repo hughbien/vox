@@ -34,6 +34,7 @@ class Vox::Renderer
         {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
       )
     )
+    target
   end
 
   private def make_target_dir(target : String)

@@ -5,7 +5,7 @@ require "uuid"
 include Vox
 
 describe Vox::Fingerprint do
-  root = File.join(__DIR__, "../../tmp")
+  root = File.expand_path(File.join(__DIR__, "../../tmp"))
   target = File.join(root, "target/js/target.js")
 
   uuid = UUID.random
@@ -35,7 +35,7 @@ describe Vox::Fingerprint do
 
     it "adds md5 fingerprint to target file name" do
       new_target = File.join(root, "target/js/target.#{md5}.js")
-      fingerprint.run(target)
+      fingerprint.run(target).should eq(new_target)
 
       File.exists?(target).should be_false
       File.exists?(new_target).should be_true

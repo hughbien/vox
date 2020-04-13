@@ -4,7 +4,7 @@ require "uuid"
 include Vox
 
 describe Vox::Minify do
-  root = File.join(__DIR__, "../../tmp")
+  root = File.expand_path(File.join(__DIR__, "../../tmp"))
   js_src1 = File.join(root, "src/js/first.js")
   js_src2 = File.join(root, "src/js/second.js")
   css_src1 = File.join(root, "src/css/first.css")
@@ -33,7 +33,7 @@ describe Vox::Minify do
 
   describe "#run" do
     it "minifies js" do
-      minify.run([js_src1, js_src2])
+      minify.run([js_src1, js_src2]).should eq(js_target)
       File.exists?(css_target).should be_false
 
       js = File.read(js_target)
@@ -43,7 +43,7 @@ describe Vox::Minify do
     end
 
     it "minifies css" do
-      minify.run([css_src1, css_src2])
+      minify.run([css_src1, css_src2]).should eq(css_target)
       File.exists?(js_target).should be_false
 
       css = File.read(css_target)
@@ -53,7 +53,7 @@ describe Vox::Minify do
     end
 
     it "does nothing with zero sources" do
-      minify.run(Array(String).new)
+      minify.run(Array(String).new).should be_nil
       File.exists?(js_target).should be_false
       File.exists?(css_target).should be_false
     end

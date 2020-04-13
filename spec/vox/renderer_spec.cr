@@ -4,7 +4,7 @@ require "uuid"
 include Vox
 
 describe Vox::Renderer do
-  root = File.join(__DIR__, "../../tmp")
+  root = File.expand_path(File.join(__DIR__, "../../tmp"))
   src_md = File.join(root, "src/source.md")
   src_html = File.join(root, "src/source.html")
   layout = File.join(root, "src/layouts/site.html")
@@ -36,7 +36,9 @@ describe Vox::Renderer do
 
   describe "#render" do
     it "renders source markdown into target HTML" do
-      renderer.render(src_md)
+      rendered_path = renderer.render(src_md)
+      rendered_path.should eq(target)
+
       html = File.read(target)
       html.should contain("<em>#{uuid.to_s}</em>")
       html.should contain("fingerprint:page-value")
@@ -46,7 +48,9 @@ describe Vox::Renderer do
     end
 
     it "renders source HTML into target HTML" do
-      renderer.render(src_html)
+      rendered_path = renderer.render(src_html)
+      rendered_path.should eq(target)
+
       html = File.read(target)
       html.should contain("<b>#{uuid.to_s}</b>")
       html.should contain("fingerprint:page-value")

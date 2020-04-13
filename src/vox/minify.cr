@@ -54,6 +54,7 @@ class Vox::Minify
     target = MinifyStrategy.default_target(@config, extname)
     FileUtils.mkdir_p(File.dirname(target))
     strategy.run(sources, target)
+    target
   end
 
   def self.has_uglify_js?

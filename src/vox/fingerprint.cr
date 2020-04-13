@@ -15,7 +15,9 @@ class Vox::Fingerprint
     target = File.expand_path(target)
     raise Error.new("Fingerprint can only be done in target dir: #{target}") unless target.starts_with?(@config.target_dir)
 
-    FileUtils.mv(target, new_target_path(target, checksum(target)))
+    new_target = new_target_path(target, checksum(target))
+    FileUtils.mv(target, new_target)
+    new_target
   end
 
   def self.prints

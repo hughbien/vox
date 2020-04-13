@@ -28,7 +28,6 @@ root
     | layouts/
         | site.html
     | 404.md
-    | about.md
     | contact.md
     | index.md
 ```
@@ -45,12 +44,9 @@ root
 | target/
     | assets/
         | hello_world.{{fingerprint}}.jpg
-    | css/
-        | all.{{fingerprint}}.css
-    | js/
-        | all.{{fingerprint}}.js
     | 404.html
-    | about.html
+    | all.{{fingerprint}}.css
+    | all.{{fingerprint}}.js
     | contact.html
     | index.html
 ```
@@ -72,13 +68,13 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* add file categorizing: ignore (layouts/partials), copy (+ fingerprint), js/css (minify/fingerprint), md/html (render)
+* add copying unrecognizable file extensions
+* add configs for file categorizing
+* add configs for target overriding
 * refactor spec_helper: root/src/target handling
-* add configs: ignore render/mustache, css/js/asset minify/fingerprint, target
-* add copy unrecognize-able file extensions (dedicated js/css/assets directory required?)
 * add yaml db
-* finalize yaml variables/scopes
-* add clean task
-* add hooks: before/after all, before/after/after-fingerprint each
+* add before/after hooks
 * add blog, lists
 * add rss, categories, drip
 * add sitemap
@@ -86,8 +82,8 @@ make run ARGS=-h             # run vox with local arguments
 * add generator customize: nginx/htaccess, fonts, icons, reset css
 * add render partial
 * add asset encode
-* add asset sprite (via glue, include retina)
-* add yaml injection tools: db, front-matter
+* add asset sprite via glue (+ retina)
+* add yaml injection tools: db include, frontmatter read
 
 ## License
 

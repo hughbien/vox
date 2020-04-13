@@ -14,14 +14,26 @@ class Vox::Renderer
   def initialize(@config)
   end
 
-  # TODO: handle file not found errors
+  # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
     target = default_target(src)
     make_target_dir(target)
-    args, source = FrontMatter.split_file(src)
+    page, source = FrontMatter.split_file(src)
+    args = {
+      "page" => page,
+      "fingerprint" => Fingerprint.prints
+    }
 
-    body = File.extname(src) == ".md" ? render_markdown(source, args) : render_html(source, args)
-    File.write(target, render_mustache(File.read(default_layout), {"body" => body}))
+    body = File.extname(src) == ".md" ?
+      render_markdown(source, args) :
+      render_html(source, args)
+    File.write(
+      target,
+      render_mustache(
+        File.read(default_layout),
+        {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
+      )
+    )
   end
 
   private def make_target_dir(target : String)

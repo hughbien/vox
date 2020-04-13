@@ -16,18 +16,22 @@ describe Vox::Renderer do
 
   before_all do
     FileUtils.mkdir_p(File.dirname(layout))
-    File.write(layout, "<html>{{{body}}}</html>")
+    File.write(layout, "<html>{{{body}}} fingerprint:{{fingerprint.renderer-layout}}</html>")
+    Fingerprint.prints["renderer-layout"] = "layout-value"
+    Fingerprint.prints["renderer-page"] = "page-value"
   end
 
   before_each do
     uuid = UUID.random
-    File.write(src_md, "---\nkey: #{uuid}\n---\n*{{key}}*")
-    File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{key2}}</b>")
+    File.write(src_md, "---\nkey: #{uuid}\n---\n*{{page.key}}*\nfingerprint:{{fingerprint.renderer-page}}")
+    File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{page.key2}}</b>\nfingerprint:{{fingerprint.renderer-page}}")
     FileUtils.rm_rf(File.dirname(target)) if Dir.exists?(File.dirname(target))
   end
 
   after_all do
     FileUtils.rm_rf(root)
+    Fingerprint.prints.delete("renderer-layout")
+    Fingerprint.prints.delete("renderer-page")
   end
 
   describe "#render" do
@@ -35,6 +39,8 @@ describe Vox::Renderer do
       renderer.render(src_md)
       html = File.read(target)
       html.should contain("<em>#{uuid.to_s}</em>")
+      html.should contain("fingerprint:page-value")
+      html.should contain("fingerprint:layout-value")
       html.should contain("<html>")
       html.should contain("</html>")
     end
@@ -43,6 +49,8 @@ describe Vox::Renderer do
       renderer.render(src_html)
       html = File.read(target)
       html.should contain("<b>#{uuid.to_s}</b>")
+      html.should contain("fingerprint:page-value")
+      html.should contain("fingerprint:layout-value")
       html.should contain("<html>")
       html.should contain("</html>")
     end

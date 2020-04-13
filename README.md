@@ -72,12 +72,13 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add asset fingerprint
+* refactor spec_helper: root/src/target handling
 * add mustache processing in css/js
+* add asset fingerprint for non-css/js
 * add configs: ignore render/mustache, css/js/asset minify/fingerprint, target
+* add copy unrecognize-able file extensions (dedicated js/css/assets directory required?)
 * add yaml db
 * finalize yaml variables/scopes
-* add render partial
 * add clean task
 * add hooks: before/after all, before/after/after-fingerprint each
 * add blog, lists
@@ -85,6 +86,7 @@ make run ARGS=-h             # run vox with local arguments
 * add sitemap
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css
+* add render partial
 * add asset encode
 * add asset sprite (via glue, include retina)
 * add yaml injection tools: db, front-matter

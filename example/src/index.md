@@ -2,4 +2,6 @@
 name: "John Doe"
 ---
 
-*Hello, {{name}}!*
+*Hello, {{page.name}}!*
+
+Fingerprint debugging: {{fingerprint.css.all_css}}

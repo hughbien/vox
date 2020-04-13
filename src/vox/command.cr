@@ -9,6 +9,10 @@ class Vox::Command
     minify.run(Dir.glob(File.join(src_path, "css/*.css")))
     minify.run(Dir.glob(File.join(src_path, "js/*.js")))
 
+    fingerprint = Fingerprint.new(config)
+    fingerprint.run("target/css/all.css")
+    fingerprint.run("target/js/all.js")
+
     renderer = Renderer.new(config)
     Dir.glob(File.join(src_path, "*.md"), File.join(src_path, "*.html")).each do |md_file|
       renderer.render(md_file)

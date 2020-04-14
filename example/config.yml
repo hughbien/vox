@@ -6,20 +6,20 @@ before: "echo before hook"
 after: "echo after hook"
 
 includes: ["_feature.html"] # filename, glob
-excludes: [".git", "glob:**/*.exe"] # filename, directory (and all contents inside it), or glob
+excludes: ["glob:**/*.exe"] # filename, glob
 
 render_exts: ["md", "html"] # extensions
-render_excludes: ["README.md"] # filename, glob
+render_excludes: ["EXAMPLE.md"] # filename, glob
 
 fingerprint_exts: ["jpg", "jpeg", "png", "gif"] # extensions
 fingerprint_excludes: ["favicon.jpg"] # filename, glob
 
 bundles:
-  - src: ["css/reset.css", "css/styles.css"]
+  - src: ["glob:css/*.css"]
     target: "all.css"
     minify: true
     fingerprint: true
-  - src: ["js/jquery.js", "js/lib.js", "js/script.js"]
+  - src: ["glob:js/*.js"]
     target: "all.js"
     minify: true
     fingerprint: true

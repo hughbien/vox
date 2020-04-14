@@ -67,10 +67,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* use configs for classify
 * add/use front-matter configs for target overriding
 * add remove empty directories in target cleanup
-* refactor spec_helper: root/src/target handling
+* refactor spec_helper: root/src/target handling, config/classify/command specs
 * add yaml db
 * add before/after hooks
 * add blog, lists

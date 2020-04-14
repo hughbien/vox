@@ -20,20 +20,27 @@ class Vox::Command
     classify = Classify.new(config)
     classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
 
+    # copy non-rendered/bundled assets, eg: images, fonts, .htaccess, etc...
     classify.sources_to_copy.each do |src|
       target = copy.run(src)
       fingerprint.run(target) if classify.fingerprint?(target)
     end
 
-    classify.sources_to_bundle.each do |target, sources|
-      next if sources.empty?
-      targets = sources.map do |single|
-        renderer.render(single).not_nil!
-      end
-      all = bundle.run(targets, target: target, remove_sources: true).not_nil!
-      fingerprint.run(all) if classify.fingerprint?(all)
+    # bundle assets: css, js, etc...
+    classify.sources_to_bundle.each do |pack|
+      next if pack.src.empty?
+      target_singles = pack.src.map { |single| renderer.render(single).not_nil! }
+      target_all = bundle.run(
+        target_singles,
+        target: pack.target,
+        # TODO: add this option!
+        # minify: pack.minify,
+        remove_sources: true
+      ).not_nil!
+      fingerprint.run(target_all) if pack.fingerprint
     end
 
+    # render pages: markdown, html, etc...
     classify.sources_to_render.each do |src|
       renderer.render(src)
     end

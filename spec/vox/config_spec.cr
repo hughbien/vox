@@ -31,7 +31,6 @@ describe Vox::Config do
 
   describe ".parse" do
     it "handles empty text" do
-      Config.parse("").root_dir.should eq(root_dir)
       Config.parse("  \n  \n  \n").root_dir.should eq(root_dir)
     end
 

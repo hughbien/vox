@@ -2,10 +2,6 @@ require "../vox"
 
 class Vox::Classify
   getter sources_to_copy = Array(String).new
-  getter sources_to_bundle = {
-    "target/all.css" => Array(String).new,
-    "target/all.js" => Array(String).new
-  }
   getter sources_to_render = Array(String).new
 
   def initialize(@config : Config)
@@ -15,18 +11,11 @@ class Vox::Classify
   def add(files : Array(String))
     files.each do |file|
       next if File.directory?(file)
+      file = File.expand_path(file)
 
-      file = File.expand_path(file.strip)
-      basename = File.basename(file)
-      extname = File.extname(file)
-
-      if basename.starts_with?("_")
-        # ignore, layout or partial
-      elsif extname == ".css"
-        @sources_to_bundle["target/all.css"] << file
-      elsif extname == ".js"
-        @sources_to_bundle["target/all.js"] << file
-      elsif {".md", ".html"}.includes?(extname)
+      if @config.exclude?(file) || @config.bundle?(file)
+        # ignore
+      elsif @config.render?(file)
         @sources_to_render << file
       else
         @sources_to_copy << file
@@ -34,8 +23,11 @@ class Vox::Classify
     end
   end
 
-  # TODO: add fingerprint config
+  def sources_to_bundle
+    @config.bundles
+  end
+
   def fingerprint?(path : String)
-    true
+    @config.fingerprint?(path)
   end
 end

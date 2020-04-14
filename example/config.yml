@@ -1,0 +1,31 @@
+minify.css:
+  src:
+    css/reset.css
+    css/styles.css
+  target: all.css
+
+minify.js:
+  src:
+    - js/jquery.js
+    - js/lib.js
+    - js/script.js
+  target: all.js
+  minify: false
+  fingerprint: false
+
+render:
+  src:
+    - "**/*.md"
+    - "**/*.html"
+
+ignore:
+  src: "**/*.exe"
+
+fingerprint:
+  extensions:
+    - "js"
+    - "css"
+    - "jpg"
+    - "jpeg"
+    - "png"
+    - "gif"

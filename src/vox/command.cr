@@ -7,9 +7,40 @@ class Vox::Command
   end
 
   def run
-    quit = false
     config = Config.parse_file("config.yml")
+    parser = parse_args(config)
 
+    return unless parser
+    return print_help(parser.not_nil!) if @args.size > 0
+
+    renderer = Renderer.new(config)
+    copy = Copy.new(config)
+    minify = Minify.new(config)
+    fingerprint = Fingerprint.new(config)
+    classify = Classify.new(config)
+    classify.add(`find src -not -type d`.split("\n"))
+
+    classify.sources_to_copy.each do |src|
+      target = copy.run(src)
+      fingerprint.run(target) if classify.fingerprint?(target)
+    end
+
+    classify.sources_to_minify.each do |target, sources|
+      next if sources.empty?
+      targets = sources.map do |single|
+        renderer.render(single).not_nil!
+      end
+      all = minify.run(targets, target: target, remove_sources: true).not_nil!
+      fingerprint.run(all) if classify.fingerprint?(all)
+    end
+
+    classify.sources_to_render.each do |src|
+      renderer.render(src)
+    end
+  end
+
+  private def parse_args(config : Config)
+    quit = false
     parser = OptionParser.parse(@args) do |parser|
       parser.banner = "Usage: vox [options]"
 
@@ -17,34 +48,7 @@ class Vox::Command
       parser.on("-v", "--version", "print version") { print_version; quit = true }
       parser.on("-c", "--clean", "remove target directory") { remove_target_dir(config); quit = true }
     end
-
-    return if quit
-    return print_help(parser) if @args.size > 0
-
-    renderer = Renderer.new(config)
-    copy = Copy.new(config)
-    minify = Minify.new(config)
-    fingerprint = Fingerprint.new(config)
-
-    Dir.glob(File.join(config.src_dir, "assets/*")).each do |asset|
-      fingerprint.run(copy.run(asset))
-    end
-
-    target_css = Dir.glob(File.join(config.src_dir, "css/*.css")).map do |css|
-      renderer.render(css).not_nil!
-    end
-    all_css = minify.run(target_css.not_nil!, remove_sources: true).not_nil!
-    fingerprint.run(all_css)
-
-    target_js = Dir.glob(File.join(config.src_dir, "js/*.js")).map do |js|
-      renderer.render(js).not_nil!
-    end
-    all_js = minify.run(target_js, remove_sources: true).not_nil!
-    fingerprint.run(all_js)
-
-    Dir.glob(File.join(config.src_dir, "*.md"), File.join(config.src_dir, "*.html")).each do |md_file|
-      renderer.render(md_file)
-    end
+    quit ? nil : parser
   end
 
   private def print_help(parser : OptionParser)

@@ -12,7 +12,6 @@ describe Vox::Config do
       config.root_dir.should eq(custom_root_dir)
       config.src_dir.should eq(File.join(custom_root_dir, "src"))
       config.target_dir.should eq(File.join(custom_root_dir, "target"))
-      config.layouts_dir.should eq(File.join(custom_root_dir, "src", "layouts"))
     end
 
     it "defaults root to current directory" do
@@ -20,7 +19,6 @@ describe Vox::Config do
       config.root_dir.should eq(root_dir)
       config.src_dir.should eq(File.join(root_dir, "src"))
       config.target_dir.should eq(File.join(root_dir, "target"))
-      config.layouts_dir.should eq(File.join(root_dir, "src", "layouts"))
     end
   end
 

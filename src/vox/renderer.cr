@@ -9,7 +9,7 @@ class Vox::Renderer
 
   @config : Config
 
-  delegate src_dir, target_dir, layouts_dir, to: @config
+  delegate src_dir, target_dir, to: @config
 
   def initialize(@config)
   end
@@ -42,8 +42,9 @@ class Vox::Renderer
     File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
   end
 
+  # TODO: handle no layout exists, handle custom layout
   private def default_layout
-    File.join(layouts_dir, "site.html")
+    File.join(src_dir, "_site.html")
   end
 
   private def render_mustache(template : String, arguments)

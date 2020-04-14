@@ -25,8 +25,7 @@ root
     | js/
         | library.js
         | script.js
-    | layouts/
-        | site.html
+    | _site.html
     | 404.md
     | contact.md
     | index.md
@@ -44,9 +43,9 @@ root
 | target/
     | assets/
         | hello_world.{{fingerprint}}.jpg
-    | 404.html
     | all.{{fingerprint}}.css
     | all.{{fingerprint}}.js
+    | 404.html
     | contact.html
     | index.html
 ```
@@ -68,10 +67,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add file categorizing: ignore (layouts/partials), copy (+ fingerprint), js/css (minify/fingerprint), md/html (render)
-* add copying unrecognizable file extensions
-* add configs for file categorizing
+* add configs for classify
 * add configs for target overriding
+* add remove empty directories in target cleanup
 * refactor spec_helper: root/src/target handling
 * add yaml db
 * add before/after hooks

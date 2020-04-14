@@ -8,7 +8,7 @@ describe Vox::Renderer do
   src_md = File.join(root, "src/source.md")
   src_html = File.join(root, "src/source.html")
   src_css = File.join(root, "src/source.css")
-  layout = File.join(root, "src/layouts/site.html")
+  layout = File.join(root, "src/_site.html")
   target = File.join(root, "target/source.html")
   target_css = File.join(root, "target/source.css")
 

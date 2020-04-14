@@ -46,13 +46,13 @@ class Vox::Minify
   def initialize(@config)
   end
 
-  def run(sources : Array(String), remove_sources = false)
+  def run(sources : Array(String), target : String | Nil = nil, remove_sources = false)
     return if sources.empty?
 
     sources = sources.map { |source| File.expand_path(source) }
     extname = File.extname(sources.first)
     strategy = MinifyStrategy.from_extname(extname)
-    target = MinifyStrategy.default_target(@config, extname)
+    target ||= MinifyStrategy.default_target(@config, extname)
     FileUtils.mkdir_p(File.dirname(target))
     strategy.run(sources, target)
 

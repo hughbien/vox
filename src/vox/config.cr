@@ -4,7 +4,7 @@ require "yaml"
 class Vox::Config
   EMPTY_YAML = Hash(YAML::Any, YAML::Any).new
 
-  getter root_dir, src_dir, target_dir, layouts_dir
+  getter root_dir, src_dir, target_dir
 
   # TODO: handle invalid root dir
   def initialize(config)
@@ -12,7 +12,6 @@ class Vox::Config
     @root_dir = File.expand_path(root)
     @src_dir = File.join(@root_dir, "src")
     @target_dir = File.join(@root_dir, "target")
-    @layouts_dir = File.join(@src_dir, "layouts")
   end
 
   # TODO: handle invalid YAML

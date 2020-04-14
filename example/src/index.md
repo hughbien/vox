@@ -4,6 +4,6 @@ name: "John Doe"
 
 *Hello, {{page.name}}!*
 
-Fingerprint debugging: {{fingerprint.all_css}}
+{{db.motto}}, what a wonderful phrase.
 
 ![Poster](assets/poster.{{fingerprint.assets.poster_jpg}}.jpg)

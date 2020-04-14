@@ -38,6 +38,8 @@ class Vox::Config
   @[YAML::Field(key: "target")]
   getter target_dir : String = "target"
 
+  getter database : String = "db.yml"
+
   # private, use layout_for instead
   private getter layout : String = "_layout.{{ext}}"
 
@@ -69,6 +71,7 @@ class Vox::Config
     @root_dir = File.expand_path(@root_dir)
     @src_dir = File.expand_path(File.join(@root_dir, @src_dir))
     @target_dir = File.expand_path(File.join(@root_dir, @target_dir))
+    @database = File.expand_path(File.join(@root_dir, @database))
     @layout = File.expand_path(File.join(@src_dir, @layout))
 
     @includes = Config.normalize_paths(@src_dir, @includes)

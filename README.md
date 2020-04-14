@@ -67,8 +67,7 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* refactor spec_helper: root/src/target handling, cleanup/config/classify/command specs
-* add yaml db
+* refactor spec_helper: root/src/target handling, cleanup/config/classify/command/db specs
 * add before/after hooks
 * add blog, lists
 * add rss, categories, drip

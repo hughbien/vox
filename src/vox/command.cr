@@ -13,7 +13,7 @@ class Vox::Command
     return unless parser
     return print_help(parser.not_nil!) if @args.size > 0
 
-    renderer = Renderer.new(config)
+    renderer = Renderer.new(config, Database.new(config).read)
     copy = Copy.new(config)
     bundle = Bundle.new(config)
     fingerprint = Fingerprint.new(config)

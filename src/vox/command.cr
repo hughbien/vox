@@ -44,6 +44,9 @@ class Vox::Command
     classify.sources_to_render.each do |src|
       renderer.render(src)
     end
+
+    # remove empty directories
+    CleanUp.new(config).run
   end
 
   private def parse_args(config : Config)

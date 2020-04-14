@@ -67,8 +67,7 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add remove empty directories in target cleanup
-* refactor spec_helper: root/src/target handling, config/classify/command specs
+* refactor spec_helper: root/src/target handling, cleanup/config/classify/command specs
 * add yaml db
 * add before/after hooks
 * add blog, lists

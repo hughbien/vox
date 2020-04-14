@@ -47,10 +47,10 @@ class Vox::Config
   getter includes : Array(String) = Array(String).new
   getter excludes : Array(String) = Array(String).new
 
-  getter render_exts : Array(String) = Array(String).new
+  getter render_exts : Array(String) = ["md", "html"]
   getter render_excludes : Array(String) = Array(String).new
 
-  getter fingerprint_exts : Array(String) = Array(String).new
+  getter fingerprint_exts : Array(String) = ["jpg", "jpeg", "png", "gif"]
   getter fingerprint_excludes : Array(String) = Array(String).new
 
   getter bundles : Array(Vox::BundleConfig) = Vox::BundleConfig.defaults

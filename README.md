@@ -67,7 +67,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add/use front-matter configs for target overriding
 * add remove empty directories in target cleanup
 * refactor spec_helper: root/src/target handling, config/classify/command specs
 * add yaml db

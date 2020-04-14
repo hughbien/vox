@@ -71,5 +71,14 @@ describe Vox::Renderer do
       css.should_not contain("<html>")
       css.should_not contain("</html>")
     end
+
+    it "renders with custom target" do
+      File.write(src_md, "---\ntarget: random_dir/random_target.html\n---\n*#{uuid}*\n")
+      rendered_path = renderer.render(src_md)
+      rendered_path.should eq(File.join(root, "target/random_dir/random_target.html"))
+
+      html = File.read(rendered_path)
+      html.should contain("<em>#{uuid.to_s}</em>")
+    end
   end
 end

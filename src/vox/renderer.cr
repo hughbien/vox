@@ -16,13 +16,13 @@ class Vox::Renderer
 
   # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
-    target = default_target(src)
-    make_target_dir(target)
     page, source = FrontMatter.split_file(src)
     args = {
       "page" => page,
       "fingerprint" => Fingerprint.prints
     }
+    target = fetch_target(page, src)
+    make_target_dir(target)
 
     body = File.extname(src) == ".md" ?
       render_markdown(source, args) :
@@ -34,12 +34,17 @@ class Vox::Renderer
     target
   end
 
-  private def make_target_dir(target : String)
-    FileUtils.mkdir_p(File.dirname(target))
+  private def fetch_target(page : Hash(YAML::Any, YAML::Any), src : String)
+    target = page["target"].as_s? if page.has_key?("target")
+    if target
+      File.expand_path(File.join(target_dir, target))
+    else
+      File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
+    end
   end
 
-  private def default_target(src : String)
-    File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
+  private def make_target_dir(target : String)
+    FileUtils.mkdir_p(File.dirname(target))
   end
 
   private def render_mustache(template : String, arguments)

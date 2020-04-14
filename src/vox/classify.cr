@@ -14,7 +14,7 @@ class Vox::Classify
   # TODO: handle symbolic links
   def add(files : Array(String))
     files.each do |file|
-      next if file.strip == ""
+      next if File.directory?(file)
 
       file = File.expand_path(file.strip)
       basename = File.basename(file)

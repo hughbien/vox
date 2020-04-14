@@ -1,31 +1,25 @@
-minify.css:
-  src:
-    css/reset.css
-    css/styles.css
-  target: all.css
+src: "src"
+target: "target"
+layout: "_layout.{{extension}}"
 
-minify.js:
-  src:
-    - js/jquery.js
-    - js/lib.js
-    - js/script.js
-  target: all.js
-  minify: false
-  fingerprint: false
+before: "echo before hook"
+after: "echo after hook"
 
-render:
-  src:
-    - "**/*.md"
-    - "**/*.html"
+include: ["_feature.html"] # filename, glob
+exclude: [".git", "glob:**/*.exe"] # filename, directory (and all contents inside it), or glob
 
-ignore:
-  src: "**/*.exe"
+render: ["md", "html"] # extensions
+render_exclude: ["README.md"] # filename, glob
 
-fingerprint:
-  extensions:
-    - "js"
-    - "css"
-    - "jpg"
-    - "jpeg"
-    - "png"
-    - "gif"
+fingerprint: ["jpg", "jpeg", "png", "gif"] # extensions
+fingerprint_exclude: ["favicon.jpg"] # filename, glob
+
+assets:
+  - src: ["css/reset.css", "css/styles.css"]
+    target: "all.css"
+    minify: true
+    fingerprint: true
+  - src: ["js/jquery.js", "js/lib.js", "js/script.js"]
+    target: "all.js"
+    minify: true
+    fingerprint: true

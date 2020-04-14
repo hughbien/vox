@@ -67,8 +67,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add configs for classify
-* add configs for target overriding
+* add configs
+* use configs for classify
+* add/use front-matter configs for target overriding
 * add remove empty directories in target cleanup
 * refactor spec_helper: root/src/target handling
 * add yaml db
@@ -81,7 +82,7 @@ make run ARGS=-h             # run vox with local arguments
 * add render partial
 * add asset encode
 * add asset sprite via glue (+ retina)
-* add yaml injection tools: db include, frontmatter read
+* add yaml injection tools: db include, db read/write, frontmatter read/write
 
 ## License
 

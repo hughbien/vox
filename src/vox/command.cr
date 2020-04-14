@@ -18,7 +18,7 @@ class Vox::Command
     minify = Minify.new(config)
     fingerprint = Fingerprint.new(config)
     classify = Classify.new(config)
-    classify.add(`find src -not -type d`.split("\n"))
+    classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
 
     classify.sources_to_copy.each do |src|
       target = copy.run(src)

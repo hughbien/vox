@@ -13,7 +13,7 @@ describe Vox::Minify do
   js_target = File.join(root, "target/js/all.js")
   css_target = File.join(root, "target/css/all.css")
 
-  config = Config.parse("root_dir: #{root}")
+  config = Config.parse("root: #{root}")
   minify = Minify.new(config)
 
   before_each do

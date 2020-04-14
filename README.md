@@ -67,7 +67,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add configs
 * use configs for classify
 * add/use front-matter configs for target overriding
 * add remove empty directories in target cleanup

@@ -8,7 +8,7 @@ describe Vox::Copy do
   src = File.join(root, "src/nested/source.txt")
   target = File.join(root, "target/nested/source.txt")
 
-  config = Config.parse("root_dir: #{root}")
+  config = Config.parse("root: #{root}")
   copy = Copy.new(config)
 
   before_each do

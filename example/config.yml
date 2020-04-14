@@ -1,18 +1,18 @@
 src: "src"
 target: "target"
-layout: "_layout.{{extension}}"
+layout: "_layout.{{ext}}"
 
 before: "echo before hook"
 after: "echo after hook"
 
-include: ["_feature.html"] # filename, glob
-exclude: [".git", "glob:**/*.exe"] # filename, directory (and all contents inside it), or glob
+includes: ["_feature.html"] # filename, glob
+excludes: [".git", "glob:**/*.exe"] # filename, directory (and all contents inside it), or glob
 
-render: ["md", "html"] # extensions
-render_exclude: ["README.md"] # filename, glob
+render_exts: ["md", "html"] # extensions
+render_excludes: ["README.md"] # filename, glob
 
-fingerprint: ["jpg", "jpeg", "png", "gif"] # extensions
-fingerprint_exclude: ["favicon.jpg"] # filename, glob
+fingerprint_exts: ["jpg", "jpeg", "png", "gif"] # extensions
+fingerprint_excludes: ["favicon.jpg"] # filename, glob
 
 assets:
   - src: ["css/reset.css", "css/styles.css"]

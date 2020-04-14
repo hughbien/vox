@@ -10,7 +10,7 @@ describe Vox::Fingerprint do
 
   uuid = UUID.random
   md5 = Digest::MD5.hexdigest(uuid.to_s)
-  config = Config.parse("root_dir: #{root}")
+  config = Config.parse("root: #{root}")
   fingerprint = Fingerprint.new(config)
 
   before_each do

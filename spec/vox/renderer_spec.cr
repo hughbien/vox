@@ -8,12 +8,12 @@ describe Vox::Renderer do
   src_md = File.join(root, "src/source.md")
   src_html = File.join(root, "src/source.html")
   src_css = File.join(root, "src/source.css")
-  layout = File.join(root, "src/_site.html")
+  layout = File.join(root, "src/_layout.html")
   target = File.join(root, "target/source.html")
   target_css = File.join(root, "target/source.css")
 
   uuid = UUID.random
-  config = Config.parse("root_dir: #{root}")
+  config = Config.parse("root: #{root}")
   renderer = Renderer.new(config)
 
   before_all do

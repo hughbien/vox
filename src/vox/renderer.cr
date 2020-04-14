@@ -42,9 +42,9 @@ class Vox::Renderer
     File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
   end
 
-  # TODO: handle no layout exists, handle custom layout
-  private def default_layout
-    File.join(src_dir, "_site.html")
+  # TODO: handle no layout exists, cache results per ext
+  private def default_layout(ext : String)
+    File.join(@config.src_dir, @config.layout.sub("{{ext}}", ext))
   end
 
   private def render_mustache(template : String, arguments)
@@ -59,9 +59,10 @@ class Vox::Renderer
     ).to_html
   end
 
+  # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
     render_mustache(
-      File.read(default_layout),
+      File.read(default_layout("html")),
       {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
     )
   end

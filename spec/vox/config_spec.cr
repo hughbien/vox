@@ -7,18 +7,25 @@ describe Vox::Config do
   custom_root_dir = File.join(root_dir, "root")
 
   describe "#initialize" do
-    it "sets directories" do
-      config = Config.new(YAML.parse("root_dir: root"))
+    it "sets instance vars" do
+      config = Config.new(
+        root_dir: custom_root_dir,
+        src_dir: "custom_src",
+        target_dir: "custom_target",
+        layout: "custom_layout.html"
+      )
       config.root_dir.should eq(custom_root_dir)
-      config.src_dir.should eq(File.join(custom_root_dir, "src"))
-      config.target_dir.should eq(File.join(custom_root_dir, "target"))
+      config.src_dir.should eq(File.join(custom_root_dir, "custom_src"))
+      config.target_dir.should eq(File.join(custom_root_dir, "custom_target"))
+      config.layout.should eq("custom_layout.html")
     end
 
-    it "defaults root to current directory" do
-      config = Config.new(YAML.parse("key: value"))
+    it "sets defaults" do
+      config = Config.new
       config.root_dir.should eq(root_dir)
       config.src_dir.should eq(File.join(root_dir, "src"))
       config.target_dir.should eq(File.join(root_dir, "target"))
+      config.layout.should eq("_layout.{{ext}}")
     end
   end
 
@@ -28,8 +35,13 @@ describe Vox::Config do
       Config.parse("  \n  \n  \n").root_dir.should eq(root_dir)
     end
 
+    it "handles empty text" do
+      Config.parse("").root_dir.should eq(root_dir)
+      Config.parse("  \n  \n  \n").root_dir.should eq(root_dir)
+    end
+
     it "returns parsed config" do
-      config = Config.parse("root_dir: root")
+      config = Config.parse("root: root")
       config.root_dir.should eq(custom_root_dir)
     end
   end
@@ -38,7 +50,7 @@ describe Vox::Config do
     config_file = File.tempfile
 
     before_each do
-      File.write(config_file.path, "root_dir: root")
+      File.write(config_file.path, "root: root")
     end
 
     after_all do

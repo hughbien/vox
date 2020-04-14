@@ -42,11 +42,6 @@ class Vox::Renderer
     File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
   end
 
-  # TODO: handle no layout exists, cache results per ext
-  private def default_layout(ext : String)
-    File.join(@config.src_dir, @config.layout.sub("{{ext}}", ext))
-  end
-
   private def render_mustache(template : String, arguments)
     Crustache.render(Crustache.parse(template), arguments)
   end
@@ -62,7 +57,7 @@ class Vox::Renderer
   # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
     render_mustache(
-      File.read(default_layout("html")),
+      File.read(@config.layout_for("html")),
       {"body" => body, "fingerprint" => Fingerprint.prints, "page" => page}
     )
   end

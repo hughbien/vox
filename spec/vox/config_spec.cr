@@ -12,12 +12,12 @@ describe Vox::Config do
         root_dir: custom_root_dir,
         src_dir: "custom_src",
         target_dir: "custom_target",
-        layout: "custom_layout.html"
+        layout: "custom_layout.{{ext}}"
       )
       config.root_dir.should eq(custom_root_dir)
       config.src_dir.should eq(File.join(custom_root_dir, "custom_src"))
       config.target_dir.should eq(File.join(custom_root_dir, "custom_target"))
-      config.layout.should eq("custom_layout.html")
+      config.layout_for(".html").should eq(File.join(config.src_dir, "custom_layout.html"))
     end
 
     it "sets defaults" do
@@ -25,7 +25,7 @@ describe Vox::Config do
       config.root_dir.should eq(root_dir)
       config.src_dir.should eq(File.join(root_dir, "src"))
       config.target_dir.should eq(File.join(root_dir, "target"))
-      config.layout.should eq("_layout.{{ext}}")
+      config.layout_for("html").should eq(File.join(config.src_dir, "_layout.html"))
     end
   end
 

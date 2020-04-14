@@ -32,7 +32,9 @@ class Vox::Config
   @[YAML::Field(key: "target")]
   getter target_dir : String = "target"
 
-  getter layout : String = "_layout.{{ext}}"
+  # private, use layout_for instead
+  private getter layout : String = "_layout.{{ext}}"
+
   getter before : String?
   getter after : String?
 
@@ -61,7 +63,14 @@ class Vox::Config
     @root_dir = File.expand_path(@root_dir)
     @src_dir = File.expand_path(File.join(@root_dir, @src_dir))
     @target_dir = File.expand_path(File.join(@root_dir, @target_dir))
+    @layout = File.expand_path(File.join(@src_dir, @layout))
     self
+  end
+
+  # TODO: handle no layout exists, cache results per ext
+  def layout_for(ext : String)
+    ext = ext.starts_with?(".") ? ext[1..-1] : ext
+    @layout.sub("{{ext}}", ext)
   end
 
   # TODO: handle invalid YAML

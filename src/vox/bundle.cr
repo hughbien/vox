@@ -1,7 +1,7 @@
 require "../vox"
 require "file_utils"
 
-enum Vox::MinifyStrategy
+enum Vox::BundleStrategy
   UglifyJS
   UglifyCSS
   Cat
@@ -19,9 +19,9 @@ enum Vox::MinifyStrategy
   end
 
   def self.from_extname(extname : String)
-    if extname == ".js" && Minify.has_uglify_js?
+    if extname == ".js" && Bundle.has_uglify_js?
       UglifyJS
-    elsif extname == ".css" && Minify.has_uglify_css?
+    elsif extname == ".css" && Bundle.has_uglify_css?
       UglifyCSS
     elsif { ".css", ".js" }.includes?(extname)
       Cat
@@ -37,7 +37,7 @@ enum Vox::MinifyStrategy
   end
 end
 
-class Vox::Minify
+class Vox::Bundle
   @config : Config
 
   @@has_uglify_js : Bool | Nil
@@ -51,14 +51,14 @@ class Vox::Minify
 
     sources = sources.map { |source| File.expand_path(source) }
     extname = File.extname(sources.first)
-    strategy = MinifyStrategy.from_extname(extname)
-    target ||= MinifyStrategy.default_target(@config, extname)
+    strategy = BundleStrategy.from_extname(extname)
+    target ||= BundleStrategy.default_target(@config, extname)
     FileUtils.mkdir_p(File.dirname(target))
     strategy.run(sources, target)
 
     if remove_sources
       sources.each do |source|
-        raise Error.new("Minify can only remove source in target dir: #{source}") unless source.starts_with?(@config.target_dir)
+        raise Error.new("Bundle can only remove source in target dir: #{source}") unless source.starts_with?(@config.target_dir)
       end
       FileUtils.rm(sources)
     end

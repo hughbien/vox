@@ -3,7 +3,7 @@ require "uuid"
 
 include Vox
 
-describe Vox::Minify do
+describe Vox::Bundle do
   root = File.expand_path(File.join(__DIR__, "../../tmp"))
   js_src1 = File.join(root, "src/js/first.js")
   js_src2 = File.join(root, "src/js/second.js")
@@ -14,7 +14,7 @@ describe Vox::Minify do
   css_target = File.join(root, "target/css/all.css")
 
   config = Config.parse("root: #{root}")
-  minify = Minify.new(config)
+  bundle = Bundle.new(config)
 
   before_each do
     FileUtils.mkdir_p(File.dirname(js_src1))
@@ -33,7 +33,7 @@ describe Vox::Minify do
 
   describe "#run" do
     it "minifies js" do
-      minify.run([js_src1, js_src2]).should eq(js_target)
+      bundle.run([js_src1, js_src2]).should eq(js_target)
       File.exists?(js_src1).should be_true
       File.exists?(js_src2).should be_true
       File.exists?(css_target).should be_false
@@ -45,7 +45,7 @@ describe Vox::Minify do
     end
 
     it "minifies css" do
-      minify.run([css_src1, css_src2]).should eq(css_target)
+      bundle.run([css_src1, css_src2]).should eq(css_target)
       File.exists?(css_src1).should be_true
       File.exists?(css_src2).should be_true
       File.exists?(js_target).should be_false
@@ -57,8 +57,8 @@ describe Vox::Minify do
     end
 
     it "raises when trying to remove source from outside target" do
-      expect_raises(Error, /Minify can only remove source in target dir/) do
-        minify.run([js_src1, js_src2], remove_sources: true)
+      expect_raises(Error, /Bundle can only remove source in target dir/) do
+        bundle.run([js_src1, js_src2], remove_sources: true)
       end
     end
 
@@ -69,21 +69,21 @@ describe Vox::Minify do
       File.write(js_min1, "var js1=true")
       File.write(js_min2, "var js2=true")
 
-      minify.run([js_min1, js_min2], remove_sources: true).should eq(js_target)
+      bundle.run([js_min1, js_min2], remove_sources: true).should eq(js_target)
       File.exists?(js_min1).should be_false
       File.exists?(js_min2).should be_false
       File.exists?(js_target).should be_true
     end
 
     it "does nothing with zero sources" do
-      minify.run(Array(String).new).should be_nil
+      bundle.run(Array(String).new).should be_nil
       File.exists?(js_target).should be_false
       File.exists?(css_target).should be_false
     end
 
     it "raises error for unsupported files" do
       expect_raises(Error, "Don't know how to minify .txt") do
-        minify.run(["unsupported.txt"])
+        bundle.run(["unsupported.txt"])
       end
     end
   end

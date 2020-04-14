@@ -2,7 +2,7 @@ require "../vox"
 
 class Vox::Classify
   getter sources_to_copy = Array(String).new
-  getter sources_to_minify = {
+  getter sources_to_bundle = {
     "target/all.css" => Array(String).new,
     "target/all.js" => Array(String).new
   }
@@ -23,9 +23,9 @@ class Vox::Classify
       if basename.starts_with?("_")
         # ignore, layout or partial
       elsif extname == ".css"
-        @sources_to_minify["target/all.css"] << file
+        @sources_to_bundle["target/all.css"] << file
       elsif extname == ".js"
-        @sources_to_minify["target/all.js"] << file
+        @sources_to_bundle["target/all.js"] << file
       elsif {".md", ".html"}.includes?(extname)
         @sources_to_render << file
       else

@@ -15,7 +15,7 @@ class Vox::Command
 
     renderer = Renderer.new(config)
     copy = Copy.new(config)
-    minify = Minify.new(config)
+    bundle = Bundle.new(config)
     fingerprint = Fingerprint.new(config)
     classify = Classify.new(config)
     classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
@@ -25,12 +25,12 @@ class Vox::Command
       fingerprint.run(target) if classify.fingerprint?(target)
     end
 
-    classify.sources_to_minify.each do |target, sources|
+    classify.sources_to_bundle.each do |target, sources|
       next if sources.empty?
       targets = sources.map do |single|
         renderer.render(single).not_nil!
       end
-      all = minify.run(targets, target: target, remove_sources: true).not_nil!
+      all = bundle.run(targets, target: target, remove_sources: true).not_nil!
       fingerprint.run(all) if classify.fingerprint?(all)
     end
 

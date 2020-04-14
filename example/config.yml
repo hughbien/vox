@@ -14,7 +14,7 @@ render_excludes: ["README.md"] # filename, glob
 fingerprint_exts: ["jpg", "jpeg", "png", "gif"] # extensions
 fingerprint_excludes: ["favicon.jpg"] # filename, glob
 
-assets:
+bundles:
   - src: ["css/reset.css", "css/styles.css"]
     target: "all.css"
     minify: true

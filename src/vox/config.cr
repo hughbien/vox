@@ -1,7 +1,7 @@
 require "../vox"
 require "yaml"
 
-class Vox::AssetConfig
+class Vox::BundleConfig
   include YAML::Serializable
 
   getter src : Array(String)
@@ -14,8 +14,8 @@ class Vox::AssetConfig
 
   def self.defaults
     [
-      AssetConfig.new(["glob:**/*.css"], "all.css"),
-      AssetConfig.new(["glob:**/*.js"], "all.js")
+      BundleConfig.new(["glob:**/*.css"], "all.css"),
+      BundleConfig.new(["glob:**/*.js"], "all.js")
     ]
   end
 end
@@ -45,7 +45,7 @@ class Vox::Config
   getter fingerprint_exts : Array(String) = Array(String).new
   getter fingerprint_excludes : Array(String) = Array(String).new
 
-  getter assets : Array(Vox::AssetConfig) = Vox::AssetConfig.defaults
+  getter bundles : Array(Vox::BundleConfig) = Vox::BundleConfig.defaults
 
   # Should use .parse or .parse_file instead. This initialization method is for specs.
   def initialize(

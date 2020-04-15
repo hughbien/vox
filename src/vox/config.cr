@@ -102,7 +102,7 @@ class Vox::Config
       @bundle_sources.not_nil!.concat(bundle.src)
     end
 
-    @blog.normalized! if @blog
+    @blog.not_nil!.normalized!(self) if @blog
     self
   end
 

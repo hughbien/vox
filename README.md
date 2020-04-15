@@ -67,22 +67,29 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* frontmatter pre-parsing
-* add blog: render-to-target, mustache blog.posts -> path/title/date (+overrides), date-aware publish, next/prev
-* refactor spec_helper: root/src/target handling
-* specs: cleanup/config/classify/command/db/hooks/blog/rss/generators
-* add rss
+* add frontmatter pre-parsing into {{pages}}
+* fix frontmatter nesting via YAML to Hash(String, ...) converter
+* add blog:
+  - config
+  - render to target
+  - mustache blog.posts (path/title/date + user override via front-matter)
+  - date-aware publishing
+  - next/prev post access
+  - rss
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css
-* add remove target before generation + target block (error if target already exists on copy/render)
-* add lists
+* refactor spec_helper: root/src/target handling
+* specs: cleanup/config/classify/command/db/hooks/blog/front-matter/rss/generators
+* add remove target dir before generation 
+* add target block (error if target already exists on copy/render)
+* add linked-list
 * add sitemap
 * add rss categories
 * add rss drip
 * add render partial
 * add asset encode
 * add asset sprite via glue (+ retina)
-* add yaml injection tools: db include, db read/write, frontmatter read/write
+* add yaml injection tools: db include/read/write, frontmatter include/read/write
 
 ## License
 

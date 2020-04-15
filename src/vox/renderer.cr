@@ -8,17 +8,20 @@ class Vox::Renderer
   OPTIONS = ["unsafe"]
 
   @config : Config
+  @database : Database
+  @front : FrontMatter
 
   delegate src_dir, target_dir, to: @config
 
-  def initialize(@config, @db = Hash(YAML::Any, YAML::Any).new)
+  def initialize(@config, @database, @front)
   end
 
   # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
     page, source = FrontMatter.split_file(src)
     args = {
-      "db" => @db,
+      "db" => @database.db,
+      "pages" => @front.pages,
       "page" => page,
       "fingerprint" => Fingerprint.prints
     }
@@ -64,7 +67,13 @@ class Vox::Renderer
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
     render_mustache(
       File.read(@config.layout_for("html")),
-      {"body" => body, "db" => @db, "fingerprint" => Fingerprint.prints, "page" => page}
+      {
+        "body" => body,
+        "db" => @database.db,
+        "fingerprint" => Fingerprint.prints,
+        "pages" => @front.pages,
+        "page" => page
+      }
     )
   end
 end

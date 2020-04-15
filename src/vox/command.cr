@@ -13,7 +13,9 @@ class Vox::Command
     return unless parser
     return print_help(parser.not_nil!) if @args.size > 0
 
-    renderer = Renderer.new(config, Database.new(config).read)
+    front = FrontMatter.new(config)
+    database = Database.new(config).read!
+    renderer = Renderer.new(config, database, front)
     copy = Copy.new(config)
     bundle = Bundle.new(config)
     fingerprint = Fingerprint.new(config)
@@ -26,6 +28,10 @@ class Vox::Command
     classify = Classify.new(config)
     classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
 
+    # gather front matter
+    front.add(classify.sources_to_bundle)
+    front.add(classify.sources_to_render)
+
     # copy non-rendered/bundled assets, eg: images, fonts, .htaccess, etc...
     classify.sources_to_copy.each do |src|
       target = copy.run(src)
@@ -33,7 +39,7 @@ class Vox::Command
     end
 
     # bundle assets: css, js, etc...
-    classify.sources_to_bundle.each do |pack|
+    classify.bundles.each do |pack|
       next if pack.src.empty?
       target_singles = pack.src.map { |single| renderer.render(single).not_nil! }
       target_all = bundle.run(

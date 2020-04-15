@@ -24,6 +24,10 @@ class Vox::Classify
   end
 
   def sources_to_bundle
+    @config.bundles.map { |bundle| bundle.src }.flatten
+  end
+
+  def bundles
     @config.bundles
   end
 

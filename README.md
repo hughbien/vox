@@ -67,9 +67,10 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* frontmatter pre-parsing
+* add blog: render-to-target, mustache blog.posts -> path/title/date (+overrides), date-aware publish, next/prev
 * refactor spec_helper: root/src/target handling
 * specs: cleanup/config/classify/command/db/hooks/blog/rss/generators
-* add blog
 * add rss
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css

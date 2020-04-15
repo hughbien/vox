@@ -24,3 +24,7 @@ bundles:
     target: "all.js"
     minify: true
     fingerprint: true
+
+blog:
+  src: "blog"
+  target: "."

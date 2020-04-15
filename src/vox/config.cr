@@ -21,7 +21,20 @@ class Vox::BundleConfig
 
   def normalized!(config)
     @src = Vox::Config.normalize_paths(config.src_dir, @src)
-    @target = File.expand_path(File.join(config.target_dir, target))
+    @target = File.expand_path(File.join(config.target_dir, @target))
+    self
+  end
+end
+
+class Vox::BlogConfig
+  include YAML::Serializable
+
+  getter src : String
+  getter target : String
+
+  def normalized!(config)
+    @src = File.expand_path(File.join(config.src_dir, @src))
+    @target = File.expand_path(File.join(config.target_dir, @target))
     self
   end
 end
@@ -56,6 +69,7 @@ class Vox::Config
   getter fingerprint_excludes : Array(String) = Array(String).new
 
   getter bundles : Array(Vox::BundleConfig) = Vox::BundleConfig.defaults
+  getter blog : BlogConfig?
 
   # Should use .parse or .parse_file instead. This initialization method is for specs.
   def initialize(
@@ -88,6 +102,7 @@ class Vox::Config
       @bundle_sources.not_nil!.concat(bundle.src)
     end
 
+    @blog.normalized! if @blog
     self
   end
 

@@ -1,6 +1,7 @@
 src: "src"
 target: "target"
 layout: "_layout.{{ext}}"
+database: "db.yml"
 
 before: "echo before hook"
 after: "echo after hook"

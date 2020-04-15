@@ -17,6 +17,12 @@ class Vox::Command
     copy = Copy.new(config)
     bundle = Bundle.new(config)
     fingerprint = Fingerprint.new(config)
+
+    # execute before and normalize any sources created by it
+    config.execute_before
+    config.normalized_post!
+
+    # start classification
     classify = Classify.new(config)
     classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
 
@@ -47,6 +53,7 @@ class Vox::Command
 
     # remove empty directories
     CleanUp.new(config).run
+    config.execute_after
   end
 
   private def parse_args(config : Config)

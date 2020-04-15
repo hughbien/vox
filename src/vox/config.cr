@@ -73,7 +73,10 @@ class Vox::Config
     @target_dir = File.expand_path(File.join(@root_dir, @target_dir))
     @database = File.expand_path(File.join(@root_dir, @database))
     @layout = File.expand_path(File.join(@src_dir, @layout))
+    self
+  end
 
+  def normalized_post!
     @includes = Config.normalize_paths(@src_dir, @includes)
     @excludes = Config.normalize_paths(@src_dir, @excludes)
     @render_excludes = Config.normalize_paths(@src_dir, @render_excludes)
@@ -112,6 +115,21 @@ class Vox::Config
   # TODO: handle dotfiles/no extension files
   def fingerprint?(file)
     @fingerprint_exts.includes?(File.extname(file)[1..-1]) && !@fingerprint_excludes.includes?(file)
+  end
+
+  def execute_before
+    execute(@before.not_nil!) unless @before.nil?
+  end
+
+  def execute_after
+    execute(@after.not_nil!) unless @after.nil?
+  end
+
+  private def execute(command : String)
+    output = `#{command}`
+    print(output) unless output.empty?
+  rescue error : Exception
+    raise Error.new("Executing `#{command}` failed: #{error}")
   end
 
   def self.normalize_paths(src_dir, paths)

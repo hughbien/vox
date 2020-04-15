@@ -67,13 +67,17 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* refactor spec_helper: root/src/target handling, cleanup/config/classify/command/db specs
-* add before/after hooks
-* add blog, lists
-* add rss, categories, drip
-* add sitemap
+* refactor spec_helper: root/src/target handling
+* specs: cleanup/config/classify/command/db/hooks/blog/rss/generators
+* add blog
+* add rss
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css
+* add remove target before generation + target block (error if target already exists on copy/render)
+* add lists
+* add sitemap
+* add rss categories
+* add rss drip
 * add render partial
 * add asset encode
 * add asset sprite via glue (+ retina)

@@ -68,7 +68,6 @@ make run ARGS=-h             # run vox with local arguments
 ## TODO
 
 * add frontmatter pre-parsing into {{pages}}
-* fix frontmatter nesting via YAML to Hash(String, ...) converter
 * add blog:
   - config
   - render to target
@@ -79,7 +78,7 @@ make run ARGS=-h             # run vox with local arguments
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css
 * refactor spec_helper: root/src/target handling
-* specs: cleanup/config/classify/command/db/hooks/blog/front-matter/rss/generators
+* specs: cleanup/config/classify/command/db/hooks/blog/front-matter/rss/generators/patch
 * add remove target dir before generation 
 * add target block (error if target already exists on copy/render)
 * add linked-list

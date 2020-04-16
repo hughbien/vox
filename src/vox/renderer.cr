@@ -7,14 +7,16 @@ class Vox::Renderer
   EXTENSIONS = ["table", "strikethrough", "autolink", "tagfilter", "tasklist"]
   OPTIONS = ["unsafe"]
 
+  alias RenderType = String | Hash(String, Fingerprint::Entry) | Hash(YAML::Any, YAML::Any) | Array(Hash(YAML::Any, YAML::Any))
+
   @config : Config
   @database : Database
   @front : FrontMatter
-  @blog : Blog
+  @list : List
 
   delegate src_dir, target_dir, to: @config
 
-  def initialize(@config, @database, @front, @blog)
+  def initialize(@config, @database, @front, @list)
   end
 
   # TODO: handle file not found errors, optimize mustache args heap usage
@@ -24,14 +26,12 @@ class Vox::Renderer
     page = @front.pages_by_source[src].as_h
     return if page.has_key?("published") && !page["published"].as_bool
 
-    args = {
-      "blog" => @blog.on? ? {"posts" => @blog.posts} : nil,
-      "db" => @database.db,
-      "page" => page,
-      "pages" => @front.pages,
-      "prints" => Fingerprint.prints
-    }
-    args.compact!
+    args = Hash(String, RenderType).new
+    args["db"] = @database.db
+    args["page"] = page
+    args["pages"] = @front.pages
+    args["prints"] = Fingerprint.prints
+    @list.add_render_args(args)
 
     target = fetch_target(page, src)
     make_target_dir(target)
@@ -51,8 +51,8 @@ class Vox::Renderer
     target = page["target"].as_s? if page.has_key?("target")
     if target
       File.join(target_dir, target)
-    elsif @blog.includes?(src)
-      @blog.fetch_target(src).sub(/\.md$/, ".html")
+    elsif @list.includes?(src)
+      @list.fetch_target(src).sub(/\.md$/, ".html")
     else
       src.sub(src_dir, target_dir).sub(/\.md$/, ".html")
     end
@@ -77,16 +77,14 @@ class Vox::Renderer
   # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
     layout_args, layout_source = FrontMatter.split_file(@config.layout_for("html"))
-    args = {
-      "body" => body,
-      "blog" => @blog.on? ? {"posts" => @blog.posts} : nil,
-      "db" => @database.db,
-      "layout" => layout_args,
-      "page" => page,
-      "pages" => @front.pages,
-      "prints" => Fingerprint.prints
-    }
-    args.compact!
+    args = Hash(String, RenderType).new
+    args["body"] = body
+    args["db"] = @database.db
+    args["layout"] = layout_args
+    args["page"] = page
+    args["pages"] = @front.pages
+    args["prints"] = Fingerprint.prints
+    @list.add_render_args(args)
     render_mustache(layout_source, args)
   end
 end

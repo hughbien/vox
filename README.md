@@ -67,7 +67,7 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add linked-list
+* add lists: position prefix, respect prefix_include in page ids + target
 * add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css
 * spec_helper: root/src/target handling
 * specs: cleanup/config/classify/command/db/hooks/blog/list/front-matter/rss/generators/patch

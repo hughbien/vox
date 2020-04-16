@@ -2,6 +2,6 @@
 title: "Blog Index"
 ---
 
-{{#blog.posts}}
+{{#blog}}
 * [{{title}}]({{path}}) on {{date}}
-{{/blog.posts}}
+{{/blog}}

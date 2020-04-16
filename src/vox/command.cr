@@ -14,9 +14,9 @@ class Vox::Command
     return print_help(parser.not_nil!) if @args.size > 0
 
     database = Database.new(config).read!
-    blog = Blog.new(config)
-    front = FrontMatter.new(config, blog)
-    renderer = Renderer.new(config, database, front, blog)
+    list = List.new(config)
+    front = FrontMatter.new(config, list)
+    renderer = Renderer.new(config, database, front, list)
     copy = Copy.new(config)
     bundle = Bundle.new(config)
     fingerprint = Fingerprint.new(config)

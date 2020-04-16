@@ -25,10 +25,14 @@ bundles:
     minify: true
     fingerprint: true
 
-blog:
-  src: "blog"
-  target: "."
-
 lists:
-  - src: "tips"
+  - id: "blog"
+    src: ["glob:blog/*"]
     target: "."
+    prefix: "date" # nil, "date", or "position"
+    prefix_include: false
+  - id: "tips"
+    src: ["glob:tips/*"]
+    target: "."
+    prefix: "position"
+    prefix_include: false

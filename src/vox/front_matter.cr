@@ -7,14 +7,14 @@ class Vox::FrontMatter
   getter pages : Hash(YAML::Any, YAML::Any) = Hash(YAML::Any, YAML::Any).new
   getter pages_by_source : Hash(String, YAML::Any) = Hash(String, YAML::Any).new
 
-  def initialize(@config : Config, @blog : Blog)
+  def initialize(@config : Config, @list : List)
   end
 
   # TODO: handle invalid ids (eg spaces)
   def add(sources : Array(String))
     sources.each do |source|
       yaml, _text = FrontMatter.split_file(source)
-      @blog.add_post(source, yaml) if @blog.includes?(source)
+      @list.add_page(source, yaml) if @list.includes?(source)
 
       parts = if yaml.has_key?("id")
         yaml["id"].as_s.strip.split(".")
@@ -93,8 +93,8 @@ class Vox::FrontMatter
     target = page["target"].as_s? if page.has_key?("target")
     if target
       File.join(@config.target_dir, target)
-    elsif @blog.includes?(src)
-      @blog.fetch_target(src).sub(/\.md$/, ".html")
+    elsif @list.includes?(src)
+      @list.fetch_target(src).sub(/\.md$/, ".html")
     else
       src.sub(@config.src_dir, @config.target_dir).sub(/\.md$/, ".html")
     end

@@ -26,16 +26,41 @@ class Vox::BundleConfig
   end
 end
 
-class Vox::BlogConfig
+enum Vox::ListPrefix
+  None
+  Date
+  Position
+
+  def matches?(str)
+    case self
+    when .none?
+      true
+    when .date?
+      str =~ /^\d{4}-\d{2}-\d{2}-/
+    when .position?
+      str =~ /^\d+-/
+    end
+  end
+end
+
+class Vox::ListConfig
   include YAML::Serializable
 
-  getter src : String
+  getter id : String # TODO: validate id for mustache
+  getter src : Array(String)
   getter target : String
+  getter prefix : Vox::ListPrefix = Vox::ListPrefix::None
+  getter prefix_include : Bool = false
 
   def normalized!(config)
-    @src = File.expand_path(File.join(config.src_dir, @src))
+    @id = @id.strip.sub(/\.|\s/, "_")
+    @src = Vox::Config.normalize_paths(config.src_dir, @src)
     @target = File.expand_path(File.join(config.target_dir, @target))
     self
+  end
+
+  def includes?(source : String)
+    src.includes?(source) && prefix.matches?(File.basename(source))
   end
 end
 
@@ -69,7 +94,7 @@ class Vox::Config
   getter fingerprint_excludes : Array(String) = Array(String).new
 
   getter bundles : Array(Vox::BundleConfig) = Vox::BundleConfig.defaults
-  getter blog : BlogConfig?
+  getter lists : Array(Vox::ListConfig) = Array(Vox::ListConfig).new
 
   # Should use .parse or .parse_file instead. This initialization method is for specs.
   def initialize(
@@ -102,7 +127,7 @@ class Vox::Config
       @bundle_sources.not_nil!.concat(bundle.src)
     end
 
-    @blog.not_nil!.normalized!(self) if @blog
+    @lists.each { |list| list.normalized!(self) }
     self
   end
 
@@ -150,7 +175,7 @@ class Vox::Config
   def self.normalize_paths(src_dir, paths)
     paths.map do |path|
       if path.starts_with?("glob:")
-        Dir.glob(File.join(src_dir, path[5..-1])).map { |p| File.expand_path(p) }
+        Dir.glob(File.join(src_dir, path[5..-1])).map { |p| File.expand_path(p) }.sort
       else
         File.expand_path(File.join(src_dir, path))
       end

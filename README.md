@@ -67,19 +67,15 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css
-* spec_helper: root/src/target handling
-* specs: cleanup/config/classify/command/db/hooks/blog/list/front-matter/rss/generators/patch
-* add remove target dir before generation 
-* add target block (error if target already exists on copy/render)
 * add -d server mode
+* add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css
+* spec_helper: root/src/target setup/teardown
+* specs: cleanup/config/classify/command/db/hooks/list/front-matter/rss/generators/patch
+* add remove target dir at start, target blocking on already existing files for copy/render
+* add rss: via-lists, categories, drip
 * add sitemap
-* add rss
-* add rss categories
-* add rss drip
 * add render partial
-* add asset encode
-* add asset sprite via glue (+ retina)
+* add asset encode, spriting (via glue/retina)
 * add yaml injection tools: db include/read/write, frontmatter include/read/write
 
 ## License

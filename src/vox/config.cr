@@ -149,12 +149,14 @@ class Vox::Config
 
   # TODO: handle dotfiles/no extension files
   def render?(file)
-    @render_exts.includes?(File.extname(file)[1..-1]) && !@render_excludes.includes?(file)
+    ext = File.extname(file)
+    !ext.empty? && @render_exts.includes?(ext[1..-1]) && !@render_excludes.includes?(file)
   end
 
   # TODO: handle dotfiles/no extension files
   def fingerprint?(file)
-    @fingerprint_exts.includes?(File.extname(file)[1..-1]) && !@fingerprint_excludes.includes?(file)
+    ext = File.extname(file)
+    !ext.empty? && @fingerprint_exts.includes?(ext[1..-1]) && !@fingerprint_excludes.includes?(file)
   end
 
   def execute_before

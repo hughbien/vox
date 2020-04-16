@@ -31,8 +31,9 @@ enum Vox::BundleStrategy
   end
 
   def self.default_target(config : Config, extname : String)
+    raise Error.new("Can't bundle files with empty extension") if extname.empty?
     File.expand_path(
-      File.join(config.target_dir, extname[1..-1], "all#{extname}")
+      File.join(config.target_dir, "all#{extname}")
     )
   end
 end

@@ -44,7 +44,12 @@ class Vox::Fingerprint
   end
 
   private def new_target_path(target : String, fingerprint : String)
-    ext = File.extname(target)[1..-1]
-    target.sub(/#{ext}$/, "#{fingerprint}.#{ext}")
+    ext = File.extname(target)
+    if ext.empty?
+      "#{target}.#{fingerprint}"
+    else
+      ext = ext[1..-1]
+      target.sub(/#{ext}$/, "#{fingerprint}.#{ext}")
+    end
   end
 end

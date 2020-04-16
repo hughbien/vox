@@ -20,6 +20,7 @@ class Vox::Renderer
   # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
     _, source = FrontMatter.split_file(src) # TODO: add FrontMatter method that doesn't parse YAML
+    @front.resolve_links(src) # links must be built after all front-matter pages were added
     page = @front.pages_by_source[src].as_h
     args = {
       "db" => @database.db,

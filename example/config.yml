@@ -28,3 +28,7 @@ bundles:
 blog:
   src: "blog"
   target: "."
+
+lists:
+  - src: "tips"
+    target: "."

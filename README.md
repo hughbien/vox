@@ -72,12 +72,13 @@ make run ARGS=-h             # run vox with local arguments
   - blog index access to blog posts
   - date-aware publishing
   - rss
+* add linked-list
 * add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css
 * spec_helper: root/src/target handling
-* specs: cleanup/config/classify/command/db/hooks/blog/front-matter/rss/generators/patch
+* specs: cleanup/config/classify/command/db/hooks/blog/list/front-matter/rss/generators/patch
 * add remove target dir before generation 
 * add target block (error if target already exists on copy/render)
-* add linked-list
+* add -d server mode
 * add sitemap
 * add rss categories
 * add rss drip

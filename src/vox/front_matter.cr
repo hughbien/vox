@@ -38,6 +38,42 @@ class Vox::FrontMatter
     end
   end
 
+  def resolve_links(src : String)
+    page = @pages_by_source[src].as_h
+    return unless page.has_key?("links")
+
+    page[YAML::Any.new("links")] = YAML::Any.new(resolve_links_obj(page["links"]))
+  end
+
+  def resolve_links_obj(obj : YAML::Any)
+    if array = obj.as_a?
+      links = Array(YAML::Any).new
+      array.each do |id|
+        links << YAML::Any.new(fetch_page_by_id(id.as_s))
+      end
+      links
+    elsif hash = obj.as_h?
+      links = Hash(YAML::Any, YAML::Any).new
+      hash.each do |key, hash_or_array|
+        links[key] = YAML::Any.new(resolve_links_obj(hash_or_array))
+      end
+      links
+    elsif str = obj.as_s?
+      fetch_page_by_id(str)
+    else
+      return obj.raw
+    end
+  end
+
+  # TODO: handle invalid id format OR non-terminating id OR past-terminating id
+  private def fetch_page_by_id(id : String)
+    current = @pages
+    id.strip.split(".").each do |part|
+      current = current[part].as_h
+    end
+    current
+  end
+
   # TODO: config option to include extname with underscore
   private def without_extname(basename)
     if basename.includes?(".")

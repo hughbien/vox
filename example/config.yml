@@ -35,4 +35,4 @@ lists:
     src: ["glob:tips/*"]
     target: "."
     prefix: "position"
-    prefix_include: false
+    prefix_include: true

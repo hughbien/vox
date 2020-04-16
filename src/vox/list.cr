@@ -14,16 +14,25 @@ class Vox::List
 
   # TODO: customize date.to_s format (multiple?)
   def add_page(src : String, page : Hash(YAML::Any, YAML::Any))
-    date = fetch_date(src)
-    published = Time.local >= date
     list_config = fetch_config_from_src(src).not_nil!
+    pages = @lists[list_config.id]
+    position = pages.size + 1
+    published = true
 
-    page[YAML::Any.new("published")] = YAML::Any.new(published) unless page.has_key?("published")
-    page[YAML::Any.new("date")] = YAML::Any.new(date.to_s("%m/%d/%Y")) unless page.has_key?("date")
+    if list_config.prefix.date?
+      date = fetch_date(src)
+      published = Time.local >= date
+      page[YAML::Any.new("published")] = YAML::Any.new(published) unless page.has_key?("published")
+      page[YAML::Any.new("date")] = YAML::Any.new(date.to_s("%m/%d/%Y")) unless page.has_key?("date")
+    elsif list_config.prefix.position?
+      position = fetch_position(src)
+    end
+
+    page[YAML::Any.new("id")] = YAML::Any.new(fetch_id(src, list_config)) unless page.has_key?("id")
+    page[YAML::Any.new("position")] = YAML::Any.new(position.to_i64) unless page.has_key?("position")
     page[YAML::Any.new("path")] = YAML::Any.new(fetch_path(src, list_config)) unless page.has_key?("path")
     return unless published
 
-    pages = @lists[list_config.id]
     if pages.size > 0
       last = pages.last
       last[YAML::Any.new("next")] = YAML::Any.new(page) unless last.has_key?("next")
@@ -51,20 +60,38 @@ class Vox::List
 
   def fetch_target(src : String, list_config : ListConfig? = nil)
     list_config ||= fetch_config_from_src(src).not_nil!
-    old_basename = File.basename(src)
-    new_basename = old_basename.sub(DATE_REGEX, "")
+    target = src.sub(File.dirname(src), list_config.target).sub(/\.md$/, ".html")
+    old_basename = File.basename(target)
 
-    src.sub(File.dirname(src), list_config.target).sub(/#{old_basename}$/, new_basename)
+    if list_config.prefix.date? && !list_config.prefix_include
+      new_basename = old_basename.sub(DATE_REGEX, "")
+      target.sub(/#{old_basename}$/, new_basename)
+    elsif list_config.prefix.position? && !list_config.prefix_include
+      new_basename = old_basename.split("-", 2).last
+      target.sub(/#{old_basename}$/, new_basename)
+    else
+      target
+    end
+  end
+
+  private def fetch_id(src : String, list_config : ListConfig)
+    parts = src.sub(@config.src_dir, "")[1..-1].split("/")
+    parts[-1] = File.basename(fetch_target(src, list_config)).sub(/.html$/, "").sub(".", "_")
+    parts.join(".")
   end
 
   # TODO: handle path suffix (multiple?)
   private def fetch_path(src : String, list_config : ListConfig)
-    fetch_target(src, list_config).sub(list_config.target, "").sub(/.md$/, "/")
+    fetch_target(src, list_config).sub(list_config.target, "").sub(/.html$/, "/")
   end
 
   # TODO: date formatting in config (multiple?)
   private def fetch_date(src : String)
     date_str = File.basename(src)[0..9]
     Time.parse(date_str, "%Y-%m-%d", Time::Location.local)
+  end
+
+  private def fetch_position(src : String)
+    File.basename(src).split("-", 2).first.to_i
   end
 end

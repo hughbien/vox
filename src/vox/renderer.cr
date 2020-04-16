@@ -52,7 +52,7 @@ class Vox::Renderer
     if target
       File.join(target_dir, target)
     elsif @list.includes?(src)
-      @list.fetch_target(src).sub(/\.md$/, ".html")
+      @list.fetch_target(src)
     else
       src.sub(src_dir, target_dir).sub(/\.md$/, ".html")
     end

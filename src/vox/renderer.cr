@@ -20,14 +20,19 @@ class Vox::Renderer
   # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
     _, source = FrontMatter.split_file(src) # TODO: add FrontMatter method that doesn't parse YAML
-    @front.resolve_links(src) # links must be built after all front-matter pages were added
+    @front.resolve_links(src) # TODO: can this be moved? Must be resolved after all pages are added to frontmatter
     page = @front.pages_by_source[src].as_h
+    return if page.has_key?("published") && !page["published"].as_bool
+
     args = {
+      "blog" => @blog.on? ? {"posts" => @blog.posts} : nil,
       "db" => @database.db,
       "page" => page,
       "pages" => @front.pages,
       "prints" => Fingerprint.prints
     }
+    args.compact!
+
     target = fetch_target(page, src)
     make_target_dir(target)
 
@@ -72,16 +77,16 @@ class Vox::Renderer
   # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
     layout_args, layout_source = FrontMatter.split_file(@config.layout_for("html"))
-    render_mustache(
-      layout_source,
-      {
-        "body" => body,
-        "db" => @database.db,
-        "layout" => layout_args,
-        "page" => page,
-        "pages" => @front.pages,
-        "prints" => Fingerprint.prints
-      }
-    )
+    args = {
+      "body" => body,
+      "blog" => @blog.on? ? {"posts" => @blog.posts} : nil,
+      "db" => @database.db,
+      "layout" => layout_args,
+      "page" => page,
+      "pages" => @front.pages,
+      "prints" => Fingerprint.prints
+    }
+    args.compact!
+    render_mustache(layout_source, args)
   end
 end

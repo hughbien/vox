@@ -1,4 +1,5 @@
 ---
+title: Third Post
 name: "Third Post"
 ---
 

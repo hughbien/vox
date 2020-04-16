@@ -67,11 +67,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add yaml links
-* add blog:
-  - blog index access to blog posts
-  - date-aware publishing
-  - rss
 * add linked-list
 * add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css
 * spec_helper: root/src/target handling
@@ -80,6 +75,7 @@ make run ARGS=-h             # run vox with local arguments
 * add target block (error if target already exists on copy/render)
 * add -d server mode
 * add sitemap
+* add rss
 * add rss categories
 * add rss drip
 * add render partial

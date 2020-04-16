@@ -8,15 +8,26 @@ class Vox::Blog
   def initialize(@config : Config)
   end
 
+  # TODO: customize date.to_s format (multiple?)
   def add_post(src : String, post : Hash(YAML::Any, YAML::Any))
+    date = fetch_date(src)
+    published = Time.local >= date
+
+    post[YAML::Any.new("published")] = YAML::Any.new(published) unless post.has_key?("published")
+    post[YAML::Any.new("date")] = YAML::Any.new(date.to_s("%m/%d/%Y")) unless post.has_key?("date")
     post[YAML::Any.new("path")] = YAML::Any.new(fetch_path(src)) unless post.has_key?("path")
-    post[YAML::Any.new("date")] = YAML::Any.new(fetch_date(src)) unless post.has_key?("date")
+    return unless published
+
     if @posts.size > 0
       last = @posts.last
       last[YAML::Any.new("next")] = YAML::Any.new(post) unless last.has_key?("next")
       post[YAML::Any.new("prev")] = YAML::Any.new(last) unless post.has_key?("prev")
     end
     @posts << post
+  end
+
+  def on?
+    !!@config.blog
   end
 
   def includes?(src : String)
@@ -43,6 +54,6 @@ class Vox::Blog
   # TODO: date formatting in config (multiple?)
   def fetch_date(src : String)
     date_str = File.basename(src)[0..9]
-    Time.parse(date_str, "%Y-%m-%d", Time::Location.local).to_s("%m/%d/%Y")
+    Time.parse(date_str, "%Y-%m-%d", Time::Location.local)
   end
 end

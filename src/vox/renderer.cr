@@ -39,6 +39,7 @@ class Vox::Renderer
     target
   end
 
+  # TODO: extract to module
   private def fetch_target(page : Hash(YAML::Any, YAML::Any), src : String)
     target = page["target"].as_s? if page.has_key?("target")
     if target

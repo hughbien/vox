@@ -1,8 +1,11 @@
 ---
+id: random.about
 name: "Jane Smith"
 target: random_dir/about2.html
 ---
 
 <b>About {{page.name}}!</b>
 
-<p>Pages access: {{pages.index_md.name}}</p>
+<p>Pages access: {{pages.index.name}}</p>
+<p>Pages access: {{pages.index.path}}</p>
+<p>Pages access special id: {{pages.random.about.name}}</p>

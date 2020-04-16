@@ -67,16 +67,15 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* frontmatter pages: id/key, drop extname
+* frontmatter pages: link(s)
 * add blog:
-  - renderer access to next/prev
+  - renderer access to next/prev (+ renderer uses frontmatter)
   - blog index access to blog posts
-  - blog posts stored as hash (for easy id access?) and frontmatter pages storage
+  - blog posts stored as hash (for easy id access?) and/or frontmatter pages storage
   - date-aware publishing
   - rss
-* add generator default: Makefile, gitignore
-* add generator customize: nginx/htaccess, fonts, icons, reset css
-* refactor spec_helper: root/src/target handling
+* add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css
+* spec_helper: root/src/target handling
 * specs: cleanup/config/classify/command/db/hooks/blog/front-matter/rss/generators/patch
 * add remove target dir before generation 
 * add target block (error if target already exists on copy/render)

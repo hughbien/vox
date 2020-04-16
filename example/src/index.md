@@ -32,4 +32,6 @@ __Hello, {{page.nested.nested2.name}}__
   {{/page.object-list}}
 </ul>
 
+Path to random page: {{pages.random.about.path}}
+
 ![Poster](assets/poster.{{fingerprint.assets.poster_jpg}}.jpg)

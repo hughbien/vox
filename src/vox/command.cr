@@ -27,7 +27,7 @@ class Vox::Command
 
     # start classification
     classify = Classify.new(config)
-    classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true))
+    classify.add(Dir.glob(File.join(config.src_dir, "**/*"), match_hidden: true).sort)
 
     # gather front matter
     front.add(classify.sources_to_bundle)

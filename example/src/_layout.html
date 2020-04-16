@@ -1,9 +1,15 @@
+---
+text: Common Text
+---
+
 <html>
   <head>
-    <link rel="stylesheet" href="/all.{{fingerprint.all_css}}.css" />
+    <link rel="stylesheet" href="/all.{{prints.all_css}}.css" />
   </head>
   <body>
     {{{body}}}
-    <script src="/all.{{fingerprint.all_js}}.js"></script>
+
+    <p>layout.text: {{layout.text}}</p>
+    <script src="/all.{{prints.all_js}}.js"></script>
   </body>
 </html>

@@ -19,12 +19,13 @@ class Vox::Renderer
 
   # TODO: handle file not found errors, optimize mustache args heap usage
   def render(src : String)
-    page, source = FrontMatter.split_file(src)
+    _, source = FrontMatter.split_file(src) # TODO: add FrontMatter method that doesn't parse YAML
+    page = @front.pages_by_source[src].as_h
     args = {
       "db" => @database.db,
-      "pages" => @front.pages,
       "page" => page,
-      "fingerprint" => Fingerprint.prints
+      "pages" => @front.pages,
+      "prints" => Fingerprint.prints
     }
     target = fetch_target(page, src)
     make_target_dir(target)
@@ -69,14 +70,16 @@ class Vox::Renderer
 
   # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
+    layout_args, layout_source = FrontMatter.split_file(@config.layout_for("html"))
     render_mustache(
-      File.read(@config.layout_for("html")),
+      layout_source,
       {
         "body" => body,
         "db" => @database.db,
-        "fingerprint" => Fingerprint.prints,
+        "layout" => layout_args,
+        "page" => page,
         "pages" => @front.pages,
-        "page" => page
+        "prints" => Fingerprint.prints
       }
     )
   end

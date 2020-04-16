@@ -67,11 +67,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* frontmatter pages: link(s)
+* add yaml links
 * add blog:
-  - renderer access to next/prev (+ renderer uses frontmatter)
   - blog index access to blog posts
-  - blog posts stored as hash (for easy id access?) and/or frontmatter pages storage
   - date-aware publishing
   - rss
 * add generator: Makefile, gitignore/nginx/htaccess, fonts, icons, reset css

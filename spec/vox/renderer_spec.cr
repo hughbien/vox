@@ -14,19 +14,20 @@ describe Vox::Renderer do
 
   uuid = UUID.random
   config = Config.parse("root: #{root}")
-  renderer = Renderer.new(config, Database.new(config), FrontMatter.new(config))
+  blog = Blog.new(config)
+  renderer = Renderer.new(config, Database.new(config), FrontMatter.new(config, blog), blog)
 
   before_all do
     FileUtils.mkdir_p(File.dirname(layout))
-    File.write(layout, "<html>{{{body}}} fingerprint:{{fingerprint.renderer-layout}}</html>")
+    File.write(layout, "---\nkey: key-for-layout\n---\n<html>{{{body}}} fingerprint:{{prints.renderer-layout}} layout-key:{{layout.key}}</html>")
     Fingerprint.prints["renderer-layout"] = "layout-value"
     Fingerprint.prints["renderer-page"] = "page-value"
   end
 
   before_each do
     uuid = UUID.random
-    File.write(src_md, "---\nkey: #{uuid}\n---\n*{{page.key}}*\nfingerprint:{{fingerprint.renderer-page}}")
-    File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{page.key2}}</b>\nfingerprint:{{fingerprint.renderer-page}}")
+    File.write(src_md, "---\nkey: #{uuid}\n---\n*{{page.key}}*\nfingerprint:{{prints.renderer-page}}")
+    File.write(src_html, "---\nkey2: #{uuid}\n---\n<b>{{page.key2}}</b>\nfingerprint:{{prints.renderer-page}}")
     File.write(src_css, "---\ncolor: \"#000\"\n---\ntext-color:{{page.color}}\n")
     FileUtils.rm_rf(File.dirname(target)) if Dir.exists?(File.dirname(target))
   end
@@ -46,6 +47,7 @@ describe Vox::Renderer do
       html.should contain("<em>#{uuid.to_s}</em>")
       html.should contain("fingerprint:page-value")
       html.should contain("fingerprint:layout-value")
+      html.should contain("layout-key:key-for-layout")
       html.should contain("<html>")
       html.should contain("</html>")
     end
@@ -58,6 +60,7 @@ describe Vox::Renderer do
       html.should contain("<b>#{uuid.to_s}</b>")
       html.should contain("fingerprint:page-value")
       html.should contain("fingerprint:layout-value")
+      html.should contain("layout-key:key-for-layout")
       html.should contain("<html>")
       html.should contain("</html>")
     end

@@ -33,5 +33,6 @@ __Hello, {{page.nested.nested2.name}}__
 </ul>
 
 Path to random page: {{pages.random.about.path}}
+Path to current page: {{page.path}}
 
-![Poster](assets/poster.{{fingerprint.assets.poster_jpg}}.jpg)
+![Poster](assets/poster.{{prints.assets.poster_jpg}}.jpg)

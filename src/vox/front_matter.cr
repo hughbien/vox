@@ -5,6 +5,7 @@ class Vox::FrontMatter
   EMPTY_YAML = Hash(YAML::Any, YAML::Any).new
 
   getter pages : Hash(YAML::Any, YAML::Any) = Hash(YAML::Any, YAML::Any).new
+  getter pages_by_source : Hash(String, YAML::Any) = Hash(String, YAML::Any).new
 
   def initialize(@config : Config, @blog : Blog)
   end
@@ -30,7 +31,10 @@ class Vox::FrontMatter
         end
         current = current[YAML::Any.new(part)].as_h
       end
-      current[YAML::Any.new(without_extname(parts.last))] = YAML::Any.new(yaml)
+
+      wrapped = YAML::Any.new(yaml)
+      current[YAML::Any.new(without_extname(parts.last))] = wrapped
+      pages_by_source[source] = wrapped
     end
   end
 

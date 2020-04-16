@@ -67,13 +67,12 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add frontmatter pre-parsing into {{pages}}
+* frontmatter pages: id/key, drop extname
 * add blog:
-  - config
-  - render to target
-  - mustache blog.posts (path/title/date + user override via front-matter)
+  - renderer access to next/prev
+  - blog index access to blog posts
+  - blog posts stored as hash (for easy id access?) and frontmatter pages storage
   - date-aware publishing
-  - next/prev post access
   - rss
 * add generator default: Makefile, gitignore
 * add generator customize: nginx/htaccess, fonts, icons, reset css

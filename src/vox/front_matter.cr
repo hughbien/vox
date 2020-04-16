@@ -6,12 +6,14 @@ class Vox::FrontMatter
 
   getter pages : Hash(YAML::Any, YAML::Any) = Hash(YAML::Any, YAML::Any).new
 
-  def initialize(@config : Config)
+  def initialize(@config : Config, @blog : Blog)
   end
 
   def add(sources : Array(String))
     sources.each do |source|
       yaml, _text = FrontMatter.split_file(source)
+      @blog.add_post(source, yaml) if @blog.includes?(source)
+
       parts = source.sub(@config.src_dir, "")[1..-1].split("/")
       current = @pages
       parts[0...-1].each do |part|

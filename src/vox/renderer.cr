@@ -10,10 +10,11 @@ class Vox::Renderer
   @config : Config
   @database : Database
   @front : FrontMatter
+  @blog : Blog
 
   delegate src_dir, target_dir, to: @config
 
-  def initialize(@config, @database, @front)
+  def initialize(@config, @database, @front, @blog)
   end
 
   # TODO: handle file not found errors, optimize mustache args heap usage
@@ -41,9 +42,11 @@ class Vox::Renderer
   private def fetch_target(page : Hash(YAML::Any, YAML::Any), src : String)
     target = page["target"].as_s? if page.has_key?("target")
     if target
-      File.expand_path(File.join(target_dir, target))
+      File.join(target_dir, target)
+    elsif @blog.includes?(src)
+      @blog.fetch_target(src).sub(/\.md$/, ".html")
     else
-      File.expand_path(src).sub(src_dir, target_dir).sub(/\.md$/, ".html")
+      src.sub(src_dir, target_dir).sub(/\.md$/, ".html")
     end
   end
 

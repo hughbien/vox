@@ -53,10 +53,12 @@ class Vox::Command
       fingerprint.run(target_all) if pack.fingerprint
     end
 
-    # render pages: markdown, html, etc...
+    # render pages: markdown, html, rss, etc...
+    list.write_rss_head
     classify.sources_to_render.each do |src|
       renderer.render(src)
     end
+    list.write_rss_foot
 
     # remove empty directories
     CleanUp.new(config).run

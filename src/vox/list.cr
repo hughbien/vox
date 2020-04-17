@@ -74,6 +74,68 @@ class Vox::List
     end
   end
 
+  def write_rss_head
+    @config.lists.each do |list_config|
+      next if list_config.rss.nil?
+      rss = list_config.rss.not_nil!
+      File.open(rss.target, "w") do |file|
+        file.print(
+          <<-RSS
+            <?xml version="1.0">
+            <rss version="2.0">
+              <channel>
+                <title>#{rss.title}</title>
+                <link>#{@config.url}</link>
+                <description>#{rss.description}</description>
+          RSS
+        )
+      end
+    end
+  end
+
+  def write_rss_foot
+    @config.lists.each do |list_config|
+      next if list_config.rss.nil?
+      rss = list_config.rss.not_nil!
+      File.open(rss.target, "a") do |file|
+        file.print(
+          <<-RSS
+            </channel>
+          </rss>
+          RSS
+        )
+      end
+    end
+  end
+
+  def write_rss_item(src, args, body)
+    list_config = fetch_config_from_src(src)
+    rss = list_config.try(&.rss)
+    return if rss.nil?
+
+    rss = rss.not_nil!
+    date = Time.parse(args["date"].as_s, "%m/%d/%Y", Time::Location.local)
+    url = @config.url.not_nil!
+    url = url.ends_with?("/") ? url : "#{url}/"
+    body = body.gsub("href=\"/", "href=\"#{url}")
+      .gsub("href='/", "href='#{url}")
+      .gsub("src=\"/", "src=\"#{url}")
+      .gsub("src='/", "src='#{url}")
+
+    File.open(rss.target, "a") do |file|
+      file.print(
+        <<-RSS
+          <item>
+            <title>#{args["title"]}</title>
+            <link>#{File.join(url, args["path"].as_s)}</link>
+            <pubDate>#{date.to_s("%a, %d %b %Y 12:00:00 %z")}</pubDate>
+            <description>#{body}</description>
+          </item>
+        RSS
+      )
+    end
+  end
+
   private def fetch_id(src : String, list_config : ListConfig)
     parts = src.sub(@config.src_dir, "")[1..-1].split("/")
     parts[-1] = File.basename(fetch_target(src, list_config)).sub(/.html$/, "").sub(".", "_")

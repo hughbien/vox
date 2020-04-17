@@ -34,6 +34,7 @@ class Vox::Renderer
     @list.add_render_args(args)
 
     target = fetch_target(page, src)
+    is_html = File.extname(target) == ".html"
     make_target_dir(target)
 
     body = File.extname(src) == ".md" ?
@@ -41,8 +42,9 @@ class Vox::Renderer
       render_mustache(source, args)
     File.write(
       target,
-      File.extname(target) == ".html" ? render_layout(body, page) : body
+      is_html ? render_layout(body, page) : body
     )
+    @list.write_rss_item(src, page, body) if is_html && @list.includes?(src)
     target
   end
 

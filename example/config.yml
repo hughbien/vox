@@ -2,6 +2,7 @@ src: "src"
 target: "target"
 layout: "_layout.{{ext}}"
 database: "db.yml"
+url: "https://example.com"
 
 before: "echo before hook"
 after: "echo after hook"
@@ -31,6 +32,11 @@ lists:
     target: "."
     prefix: "date" # nil, "date", or "position"
     prefix_include: false
+    rss:
+      title: "Blog"
+      description: "Lorem Ipsum"
+      limit: 20 # defaults to unlimited
+      target: "rss.xml" # defaults to "rss.xml"
   - id: "tips"
     src: ["glob:tips/*"]
     target: "."

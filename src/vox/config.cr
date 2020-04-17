@@ -26,6 +26,21 @@ class Vox::BundleConfig
   end
 end
 
+class Vox::RSSConfig
+  include YAML::Serializable
+
+  getter title : String
+  getter description : String
+  getter target : String = "rss.xml"
+  getter limit : Int64? # leave blank for unlimited
+
+  def normalized!(config, list_config)
+    @target = File.expand_path(File.join(list_config.target, "rss.xml"))
+    raise Error.new("URL config is required for RSS feeds") if config.url.nil?
+    self
+  end
+end
+
 enum Vox::ListPrefix
   None
   Date
@@ -51,11 +66,14 @@ class Vox::ListConfig
   getter target : String
   getter prefix : Vox::ListPrefix = Vox::ListPrefix::None
   getter prefix_include : Bool = false
+  getter rss : RSSConfig?
 
   def normalized!(config)
     @id = @id.strip.sub(/\.|\s/, "_")
     @src = Vox::Config.normalize_paths(config.src_dir, @src)
     @target = File.expand_path(File.join(config.target_dir, @target))
+    @rss.try(&.normalized!(config, self))
+
     self
   end
 
@@ -77,6 +95,9 @@ class Vox::Config
   getter target_dir : String = "target"
 
   getter database : String = "db.yml"
+
+  # optional, only used for RSS feeds
+  getter url : String?
 
   # private, use layout_for instead
   private getter layout : String = "_layout.{{ext}}"

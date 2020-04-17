@@ -73,6 +73,7 @@ make run ARGS=-h             # run vox with local arguments
 * specs: cleanup/config/classify/command/db/hooks/list/front-matter/rss/generators/patch
 * add remove target dir at start, target blocking on already existing files for copy/render
 * add rss: via-lists, categories, drip
+* add trailing slash as config
 * add sitemap
 * add render partial
 * add asset encode, spriting (via glue/retina)

@@ -67,7 +67,7 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add -d server mode
+* add server: custom port, target regeneration
 * add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css
 * spec_helper: root/src/target setup/teardown
 * specs: cleanup/config/classify/command/db/hooks/list/front-matter/rss/generators/patch

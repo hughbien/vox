@@ -71,6 +71,7 @@ class Vox::Command
       parser.on("-h", "--help", "print this help message") { print_help(parser); quit = true }
       parser.on("-v", "--version", "print version") { print_version; quit = true }
       parser.on("-c", "--clean", "remove target directory") { remove_target_dir(config); quit = true }
+      parser.on("-s", "--server", "start server") { start_server(config); quit = true }
     end
     quit ? nil : parser
   end
@@ -85,5 +86,9 @@ class Vox::Command
 
   private def remove_target_dir(config)
     FileUtils.rm_rf(config.target_dir)
+  end
+
+  private def start_server(config)
+    Server.new(config).run
   end
 end

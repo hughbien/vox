@@ -66,6 +66,7 @@ class Vox::ListConfig
   getter target : String
   getter prefix : Vox::ListPrefix = Vox::ListPrefix::None
   getter prefix_include : Bool = false
+  getter reverse : Bool = false
   getter rss : RSSConfig?
 
   def normalized!(config)

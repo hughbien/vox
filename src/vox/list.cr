@@ -42,8 +42,10 @@ class Vox::List
   end
 
   def add_render_args(args)
-    @lists.each do |id, pages|
-      args[id] = pages
+    @config.lists.each do |list_config|
+      id = list_config.id
+      pages = @lists[id]
+      args[id] = list_config.reverse ? pages.reverse : pages
     end
   end
 
@@ -81,7 +83,7 @@ class Vox::List
       File.open(rss.target, "w") do |file|
         file.print(
           <<-RSS
-            <?xml version="1.0">
+            <?xml version="1.0"?>
             <rss version="2.0">
               <channel>
                 <title>#{rss.title}</title>

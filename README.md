@@ -67,6 +67,13 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* add list reversal
+* add nil layout
+* add either matcher or list apply frontmatter, eg blog/* has different layout or property "selected: blog"
+* add rss limits
+* add config: timzone (for rss)
+* add files (shortcut for fingerprints)
+* fix empty yaml frontmatter
 * add server: custom port, target regeneration
 * add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css
 * spec_helper: root/src/target setup/teardown

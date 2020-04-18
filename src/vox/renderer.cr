@@ -35,6 +35,7 @@ class Vox::Renderer
 
     target = fetch_target(page, src)
     is_html = File.extname(target) == ".html"
+    skip_layout = page.has_key?("layout") && !page["layout"].as_s? && !page["layout"].as_bool # layout : false
     make_target_dir(target)
 
     body = File.extname(src) == ".md" ?
@@ -42,7 +43,7 @@ class Vox::Renderer
       render_mustache(source, args)
     File.write(
       target,
-      is_html ? render_layout(body, page) : body
+      is_html && !skip_layout ? render_layout(body, page) : body
     )
     @list.write_rss_item(src, page, body) if is_html && @list.includes?(src)
     target
@@ -78,7 +79,11 @@ class Vox::Renderer
 
   # TODO: support non-HTML layouts like XML/JSON
   private def render_layout(body : String, page : Hash(YAML::Any, YAML::Any))
-    layout_args, layout_source = FrontMatter.split_file(@config.layout_for("html"))
+    layout_file = page.has_key?("layout") ?
+      File.join(@config.src_dir, page["layout"].as_s) :
+      @config.layout_for("html")
+    layout_args, layout_source = FrontMatter.split_file(layout_file)
+
     args = Hash(String, RenderType).new
     args["body"] = body
     args["db"] = @database.db

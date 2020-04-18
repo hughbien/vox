@@ -1,5 +1,6 @@
 ---
 title: "First Tip!"
+layout: false
 ---
 
 Hello, {{page.title}}!

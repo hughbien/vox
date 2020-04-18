@@ -1,6 +1,7 @@
 ---
 title: Second Post
 keyword: Second
+layout: _blog.html
 ---
 
 {{page.keyword}} Post!

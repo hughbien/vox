@@ -125,5 +125,7 @@ class Vox::FrontMatter
     split(File.read(path))
   rescue error : Error
     raise Error.new("In file #{path} - #{error}")
+  rescue error : IO::Error
+    raise Error.new("Unable to read file #{path} - #{error}")
   end
 end

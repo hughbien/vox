@@ -1,6 +1,7 @@
 ---
 title: "Hello World!"
 name: "World"
+layout: _blog.html
 ---
 
 Hello, {{page.name}}!

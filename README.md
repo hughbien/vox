@@ -67,7 +67,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add nil layout
 * add rss limits
 * add config: timzone (for rss)
 * add files (shortcut for fingerprints)

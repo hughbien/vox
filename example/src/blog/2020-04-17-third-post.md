@@ -1,6 +1,7 @@
 ---
 title: Third Post
 name: "Third Post"
+layout: _blog.html
 ---
 
 Hi!

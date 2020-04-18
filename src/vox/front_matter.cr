@@ -100,17 +100,30 @@ class Vox::FrontMatter
     end
   end
 
-  # TODO: handle carriage returns, whitespace after dashes, invalid YAML
+  # TODO: handle carriage returns, whitespace after dashes
   def self.split(text)
     return {EMPTY_YAML, text} unless text =~ /^---\n/
 
-    text = text.split("\n", 2).last
-    yaml, text = text.split(/\n---\n/, 2)
-    {YAML.parse(yaml).as_h, text}
+    text = text.split("\n", 2).last # drop initial line
+    parts = text.split(/\n---\n/, 2) # split between YAML/content
+
+    if parts.size == 2 # valid format
+      begin
+        {YAML.parse(parts[0]).as_h, parts[1]}
+      rescue TypeCastError
+        raise Error.new("Invalid YAML found: #{parts[0]}")
+      end
+    elsif parts[0].starts_with?("---\n") # empty front-matter
+      {EMPTY_YAML, parts[0].split("\n", 2).last}
+    else # unclosed!
+      {EMPTY_YAML, parts[0]}
+    end
   end
 
   # TODO: handle file not found error
   def self.split_file(path)
     split(File.read(path))
+  rescue error : Error
+    raise Error.new("In file #{path} - #{error}")
   end
 end

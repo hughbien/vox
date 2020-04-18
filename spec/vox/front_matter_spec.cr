@@ -22,6 +22,42 @@ describe Vox::FrontMatter do
       yaml.should eq(FrontMatter::EMPTY_YAML)
       content.should eq("No Front Matter :(")
     end
+
+    it "reads empty front matter" do
+      yaml, content = FrontMatter.split(
+        <<-CONTENT
+        ---
+        ---
+        No Front Matter :(
+        CONTENT
+      )
+      yaml.should eq(FrontMatter::EMPTY_YAML)
+      content.should eq("No Front Matter :(")
+    end
+
+    it "handles unclosed front matter" do
+      yaml, content = FrontMatter.split(
+        <<-CONTENT
+        ---
+        No Front Matter :(
+        CONTENT
+      )
+      yaml.should eq(FrontMatter::EMPTY_YAML)
+      content.should eq("No Front Matter :(")
+    end
+
+    it "handles invalid YAML" do
+      expect_raises(Error, /Invalid YAML/) do
+        FrontMatter.split(
+          <<-CONTENT
+          ---
+          invaid-yaml
+          ---
+          This is not a valid file!
+          CONTENT
+        )
+      end
+    end
   end
 
   describe ".split_file" do

@@ -32,6 +32,7 @@ lists:
     target: "."
     prefix: "date" # nil, "date", or "position"
     prefix_include: false
+    reverse: true # sort by newest first
     rss:
       title: "Blog"
       description: "Lorem Ipsum"

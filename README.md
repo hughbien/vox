@@ -67,10 +67,12 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add rss limits
-* add config: timzone (for rss)
-* add files (shortcut for fingerprints)
-* add either matcher or list apply frontmatter, eg blog/* has different layout or property "selected: blog"
+* switch uglifyjs -> terser (for ES6 support)
+* add layout content_for
+* fix rss: reversed, limits, timezone (via config)
+* add files (fingerprints shortcut)
+* add asset encode, spriting (via glue/retina)
+* add list/matcher apply to frontmatter
 * add server: custom port, target regeneration
 * add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css
 * spec_helper: root/src/target setup/teardown
@@ -80,7 +82,6 @@ make run ARGS=-h             # run vox with local arguments
 * add trailing slash as config
 * add sitemap
 * add render partial
-* add asset encode, spriting (via glue/retina)
 * add yaml injection tools: db include/read/write, frontmatter include/read/write
 
 ## License

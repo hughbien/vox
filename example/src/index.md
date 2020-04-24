@@ -48,3 +48,8 @@ Links:
 </ul>
 
 ![Poster](assets/poster.{{prints.assets.poster_jpg}}.jpg)
+<div style="height:10px;width:10px">
+{{{assets.icons.heart_svg}}}
+</div>
+<div class="poster"></div>
+<div class="icon-heart"></div>

@@ -17,6 +17,11 @@ render_excludes: ["EXAMPLE.md"] # filename, glob
 fingerprint_exts: ["jpg", "jpeg", "png", "gif"] # extensions
 fingerprint_excludes: ["favicon.jpg"] # filename, glob
 
+assets:
+  - src: ["glob:icons/*.svg"]
+  - src: ["assets/poster.jpg"]
+    encode: base64
+
 bundles:
   - src: ["glob:css/*.css"]
     target: "all.css"

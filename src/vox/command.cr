@@ -15,6 +15,7 @@ class Vox::Command
 
     database = Database.new(config).read!
     list = List.new(config)
+    asset = Asset.new(config)
     front = FrontMatter.new(config, list)
     renderer = Renderer.new(config, database, front, list)
     copy = Copy.new(config)
@@ -38,6 +39,9 @@ class Vox::Command
       target = copy.run(src)
       fingerprint.run(target) if classify.fingerprint?(target)
     end
+
+    # gather assets: images, icons, svg, etc...
+    asset.read
 
     # bundle assets: css, js, etc...
     classify.bundles.each do |pack|

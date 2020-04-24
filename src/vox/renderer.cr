@@ -7,7 +7,7 @@ class Vox::Renderer
   EXTENSIONS = ["table", "strikethrough", "autolink", "tagfilter", "tasklist"]
   OPTIONS = ["unsafe"]
 
-  alias RenderType = String | Hash(String, Fingerprint::Entry) | Hash(YAML::Any, YAML::Any) | Array(Hash(YAML::Any, YAML::Any))
+  alias RenderType = String | Hash(String, Asset::Entry) | Hash(String, Fingerprint::Entry) | Hash(YAML::Any, YAML::Any) | Array(Hash(YAML::Any, YAML::Any))
 
   @config : Config
   @database : Database
@@ -27,6 +27,7 @@ class Vox::Renderer
     return if page.has_key?("published") && !page["published"].as_bool
 
     args = Hash(String, RenderType).new
+    args["assets"] = Asset.assets
     args["db"] = @database.db
     args["page"] = page
     args["pages"] = @front.pages
@@ -85,6 +86,7 @@ class Vox::Renderer
     layout_args, layout_source = FrontMatter.split_file(layout_file)
 
     args = Hash(String, RenderType).new
+    args["assets"] = Asset.assets
     args["body"] = body
     args["db"] = @database.db
     args["layout"] = layout_args

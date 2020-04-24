@@ -1,6 +1,23 @@
 require "../vox"
 require "yaml"
 
+enum Vox::AssetEncode
+  None
+  Base64
+end
+
+class Vox::AssetConfig
+  include YAML::Serializable
+
+  getter src : Array(String)
+  getter encode : Vox::AssetEncode = Vox::AssetEncode::None
+
+  def normalized!(config)
+    @src = Vox::Config.normalize_paths(config.src_dir, @src)
+    self
+  end
+end
+
 class Vox::BundleConfig
   include YAML::Serializable
 
@@ -120,6 +137,7 @@ class Vox::Config
 
   getter bundles : Array(Vox::BundleConfig) = Vox::BundleConfig.defaults
   getter lists : Array(Vox::ListConfig) = Array(Vox::ListConfig).new
+  getter assets : Array(Vox::AssetConfig) = Array(Vox::AssetConfig).new
 
   # Should use .parse or .parse_file instead. This initialization method is for specs.
   def initialize(
@@ -153,6 +171,7 @@ class Vox::Config
     end
 
     @lists.each { |list| list.normalized!(self) }
+    @assets.each { |asset| asset.normalized!(self) }
     self
   end
 

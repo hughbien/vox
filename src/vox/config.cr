@@ -100,6 +100,9 @@ class Vox::Config
   # optional, only used for RSS feeds
   getter url : String?
 
+  # if set to true, adds trailing slash to path
+  getter trailing_slash : Bool = false
+
   # private, use layout_for instead
   private getter layout : String = "_layout.{{ext}}"
 

@@ -67,11 +67,15 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* add asset encode (base64/svg)
+* add mustache yaml (for dynamic access)
+* add icon system:
+  - inline svg in css: asset encode (plain), fill generator
+  - inline svg in html: asset encode (plain), without fill
 * switch uglifyjs -> terser (for ES6 support)
 * add layout content_for
 * fix rss: reversed, limits, timezone (via config)
-* add files (fingerprints shortcut)
-* add asset encode, spriting (via glue/retina)
+* add files (fingerprints shortcut, reconsider fingerprint's _ext format)
 * add list/matcher apply to frontmatter
 * add server: custom port, target regeneration
 * add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css

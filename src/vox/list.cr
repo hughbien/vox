@@ -146,7 +146,9 @@ class Vox::List
 
   # TODO: handle path suffix (multiple?)
   private def fetch_path(src : String, list_config : ListConfig)
-    fetch_target(src, list_config).sub(list_config.target, "").sub(/.html$/, "/")
+    fetch_target(src, list_config).
+      sub(list_config.target, "").
+      sub(/.html$/, @config.trailing_slash ? "/" : "")
   end
 
   # TODO: date formatting in config (multiple?)

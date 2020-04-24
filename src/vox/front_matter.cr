@@ -85,7 +85,10 @@ class Vox::FrontMatter
 
   # TODO: handle path suffix (multiple?)
   private def fetch_path(page : Hash(YAML::Any, YAML::Any), src : String)
-    fetch_target(page, src).sub(@config.target_dir, "").sub(/index.html$/, "").sub(/.html$/, "/")
+    fetch_target(page, src).
+      sub(@config.target_dir, "").
+      sub(/index.html$/, "").
+      sub(/.html$/, @config.trailing_slash ? "/" : "")
   end
 
   # TODO: extract to module

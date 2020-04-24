@@ -14,12 +14,16 @@ class Vox::ServerHandler
     path = context.request.path.not_nil!
     file = File.join(@config.target_dir, path)
     index_file = File.join(file, "index.html")
-    html_file = "#{file[0...-1]}.html"
+    html_file = @config.trailing_slash ? "#{file[0...-1]}.html" : "#{file}.html"
 
     if (File.exists?(file) && !File.directory?(file)) || File.basename(path).includes?(".")
       call_next(context)
-    elsif !path.ends_with?("/")
+    elsif !path.ends_with?("/") && @config.trailing_slash
       redirect_to = "#{path}/"
+      context.response.headers.add("Location", redirect_to)
+      context.response.status_code = 302
+    elsif path != "/" && path.ends_with?("/") && !@config.trailing_slash
+      redirect_to = path[0...-1]
       context.response.headers.add("Location", redirect_to)
       context.response.status_code = 302
     elsif File.exists?(index_file)

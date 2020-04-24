@@ -3,6 +3,7 @@ target: "target"
 layout: "_layout.{{ext}}"
 database: "db.yml"
 url: "https://example.com"
+trailing_slash: false
 
 before: "echo before hook"
 after: "echo after hook"

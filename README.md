@@ -67,26 +67,21 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* add asset encode (base64/svg)
-* add mustache yaml (for dynamic access)
-* add icon system:
-  - inline svg in css: asset encode (plain), fill generator
-  - inline svg in html: asset encode (plain), without fill
-* switch uglifyjs -> terser (for ES6 support)
-* add layout content_for
+* fix links/next/prev yaml for pages missing frontmatter
+* crinja: benchmark, sub-mustache, dynamic vars, block/template-inherit, includes
+* add icon system: fill/css generator
+* add terser (sub-uglifyjs)
 * fix rss: reversed, limits, timezone (via config)
-* add files (fingerprints shortcut, reconsider fingerprint's _ext format)
+* update prints to reference full path (reconsider _ext format)
 * add list/matcher apply to frontmatter
 * add server: custom port, target regeneration
-* add generator: Makefile, gitignore, nginx-config, htaccess, fonts, icons, reset-css
+* add generator (custom): Makefile, gitignore, nginx-config/htaccess, fonts, icons, reset-css
 * spec_helper: root/src/target setup/teardown
 * specs: cleanup/config/classify/command/db/hooks/list/front-matter/rss/generators/patch
 * add remove target dir at start, target blocking on already existing files for copy/render
 * add rss: via-lists, categories, drip
-* add trailing slash as config
 * add sitemap
-* add render partial
-* add yaml injection tools: db include/read/write, frontmatter include/read/write
+* add yaml tools for db/frontmatter: include, read, write
 
 ## License
 

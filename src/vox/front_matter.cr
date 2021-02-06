@@ -71,7 +71,7 @@ class Vox::FrontMatter
     id.strip.split(".").each do |part|
       current = current[part].as_h
     end
-    current
+    current.clone
   end
 
   # TODO: config option to include extname with underscore

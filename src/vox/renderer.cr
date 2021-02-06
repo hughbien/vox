@@ -1,7 +1,7 @@
 require "../vox"
 require "file_utils"
 require "common_marker"
-require "crustache"
+require "crinja"
 
 class Vox::Renderer
   EXTENSIONS = ["table", "strikethrough", "autolink", "tagfilter", "tasklist"]
@@ -19,7 +19,7 @@ class Vox::Renderer
   def initialize(@config, @database, @front, @list)
   end
 
-  # TODO: handle file not found errors, optimize mustache args heap usage
+  # TODO: handle file not found errors, optimize crinja args heap usage
   def render(src : String)
     _, source = FrontMatter.split_file(src) # TODO: add FrontMatter method that doesn't parse YAML
     @front.resolve_links(src) # TODO: can this be moved? Must be resolved after all pages are added to frontmatter
@@ -41,7 +41,7 @@ class Vox::Renderer
 
     body = File.extname(src) == ".md" ?
       render_markdown(source, args) :
-      render_mustache(source, args)
+      render_crinja(source, args)
     File.write(
       target,
       is_html && !skip_layout ? render_layout(body, page) : body
@@ -66,13 +66,13 @@ class Vox::Renderer
     FileUtils.mkdir_p(File.dirname(target))
   end
 
-  private def render_mustache(template : String, arguments)
-    Crustache.render(Crustache.parse(template), arguments)
+  private def render_crinja(template : String, arguments)
+    Crinja.render(template, arguments)
   end
 
   private def render_markdown(markdown : String, arguments)
     CommonMarker.new(
-      render_mustache(markdown, arguments),
+      render_crinja(markdown, arguments),
       options: OPTIONS,
       extensions: EXTENSIONS
     ).to_html
@@ -94,6 +94,6 @@ class Vox::Renderer
     args["pages"] = @front.pages
     args["prints"] = Fingerprint.prints
     @list.add_render_args(args)
-    render_mustache(layout_source, args)
+    render_crinja(layout_source, args)
   end
 end

@@ -78,7 +78,7 @@ end
 class Vox::ListConfig
   include YAML::Serializable
 
-  getter id : String # TODO: validate id for mustache
+  getter id : String # TODO: validate id for crinja
   getter src : Array(String)
   getter target : String
   getter prefix : Vox::ListPrefix = Vox::ListPrefix::None

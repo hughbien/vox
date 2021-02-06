@@ -67,8 +67,9 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* fix uglifyjs/css to work with asdf/.tools-versions
 * fix links/next/prev yaml for pages missing frontmatter
-* crinja: benchmark, sub-mustache, dynamic vars, block/template-inherit, includes
+* crinja: dynamic vars, block/template-inherit, includes
 * add icon system: css-generator + static-fill, on-page + dynamic-fill
 * add terser (sub-uglifyjs)
 * fix rss: reversed, limits, timezone (via config)
@@ -82,7 +83,7 @@ make run ARGS=-h             # run vox with local arguments
 * add rss: via-lists, categories
 * add sitemap
 * add yaml tools for db/frontmatter: include, read, write
-* add render/bundles processing hooks or staging area: use cases typescript/babel/scss
+* add bundling support: typescript, babel, scss
 
 ## License
 

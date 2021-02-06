@@ -4,5 +4,9 @@ title: "Third tip!"
 
 Hello, {{page.position}}!
 
-[Next Post]({{page.next.path}})
-[Next Next Post]({{page.next.next.path}})
+{% if page.next %}
+  [Next Post]({{page.next.path}})
+{% endif %}
+{% if page.next and page.next.next %}
+  [Next Next Post]({{page.next.next.path}})
+{% endif %}

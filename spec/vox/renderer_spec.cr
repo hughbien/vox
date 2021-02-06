@@ -14,8 +14,8 @@ describe Vox::Renderer do
 
   uuid = UUID.random
   config = Config.parse("root: #{root}")
-  list = List.new(config)
-  renderer = Renderer.new(config, Database.new(config), FrontMatter.new(config, list), list)
+  blog = Blog.new(config)
+  renderer = Renderer.new(config, Database.new(config), FrontMatter.new(config, blog), blog)
 
   before_all do
     FileUtils.mkdir_p(File.dirname(layout))

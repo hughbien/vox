@@ -35,8 +35,8 @@ class Vox::List
 
     if pages.size > 0
       last = pages.last
-      last[YAML::Any.new("next")] = YAML::Any.new(page.clone) unless last.has_key?("next")
-      page[YAML::Any.new("prev")] = YAML::Any.new(last.clone) if !page.has_key?("prev") && !last.nil?
+      last[YAML::Any.new("next")] = YAML::Any.new(page) unless last.has_key?("next")
+      page[YAML::Any.new("prev")] = YAML::Any.new(last) unless page.has_key?("prev")
     end
     pages << page
   end

@@ -3,18 +3,18 @@ base_color: "#000"
 ---
 
 a {
-  color: {{ page.base_color }};
+  color: {{page.base_color}};
   text-decoration: underline;
 }
 
 .icon-heart {
-  background: url('data:image/svg+xml;charset=UTF-8,{{ assets.icons.heart_svg | safe }}');
+  background: url('data:image/svg+xml;charset=UTF-8,{{{assets.icons.heart_svg}}}');
   height: 30px;
   width: 30px;
 }
 
 .poster {
-  background: url(data:image/jpeg;base64,{{ assets.assets.poster_jpg | safe }});
+  background: url(data:image/jpeg;base64,{{{assets.assets.poster_jpg}}});
   width: 50px;
   height: 200px;
 }

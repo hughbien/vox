@@ -24,16 +24,16 @@ __Hello, {{page.nested.nested2.name}}__
 
 <ul>
   <li>List:</li>
-  {% for item in page.list %}
-  <li>{{ item }}</li>
-  {% endfor %}
+  {{#page.list}}
+  <li>{{.}}</li>
+  {{/page.list}}
 </ul>
 
 <ul>
   <li>Object List:</li>
-  {% for item in page["object-list"] %}
-  <li>{{ item.name }}</li>
-  {% endfor %}
+  {{#page.object-list}}
+  <li>{{name}}</li>
+  {{/page.object-list}}
 </ul>
 
 Path to random page: {{pages.random.about.path}}
@@ -42,14 +42,14 @@ Path to current page: {{page.path}}
 Links:
 
 <ul>
-{% for link in page.links %}
-  <li><a href="{{link.path}}">{{link.title}}</a><li>
-{% endfor %}
+{{#page.links}}
+  <li><a href="{{path}}">{{title}}</a><li>
+{{/page.links}}
 </ul>
 
 ![Poster](assets/poster.{{prints.assets.poster_jpg}}.jpg)
 <div style="height:10px;width:10px">
-{{ assets.icons.heart_svg | safe }}
+{{{assets.icons.heart_svg}}}
 </div>
 <div class="poster"></div>
 <div class="icon-heart"></div>

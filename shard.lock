@@ -4,7 +4,7 @@ shards:
     github: mamantoha/crystal-cmark-gfm
     version: 0.3.0
 
-  crinja:
-    github: straight-shoota/crinja
-    version: 0.6.0
+  crustache:
+    github: MakeNowJust/crustache
+    version: 2.4.1
 

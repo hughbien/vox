@@ -6,9 +6,11 @@ Vox is a static site generator.
 
 ## Installation
 
-Download the binary from the latest release and place it in your `$PATH`.
+To install:
 
-Or checkout this repo and run `make build`. The binary should be located in `bin/vox`.
+* install [Crystal](https://crystal-lang.org/install/)
+* check out repo and run `make build`
+* binary will be at `bin/vox`
 
 ## Usage
 
@@ -67,10 +69,13 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* add ability to inline/flatten db/frontmatter vars
+* fix scope of page vars, no need to pass huge assets/vars to all other pages
 * fix uglifyjs/css to work with asdf/.tools-versions 
+* fix output errors and stop build on uglifyjs/css syntax errors
 * fix links/next/prev yaml for pages missing frontmatter
 * add icon system: css-generator + static-fill, on-page + dynamic-fill
-* add terser (sub-uglifyjs)
+* add terser (sub-uglifyjs) for ES6
 * fix rss: reversed, limits, timezone (via config)
 * update prints to reference full path (reconsider _ext formats)
 * add list/matcher apply to frontmatter
@@ -83,6 +88,7 @@ make run ARGS=-h             # run vox with local arguments
 * add sitemap
 * add yaml tools for db/frontmatter: include, read, write
 * add bundling support: typescript, babel, scss
+* fix `excludes`/`render_excludes` for bundle files (js/css/etc...) to keep curly brackets
 
 ## License
 

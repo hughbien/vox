@@ -1,5 +1,5 @@
 name: vox
-version: 0.1.0
+version: 0.1.1
 
 authors:
   - Hugh Bien <hugh@hughbien.com>
@@ -9,13 +9,13 @@ targets:
     main: src/cli.cr
 
 dependencies:
-  common_marker:
-    github: mamantoha/crystal-cmark-gfm
+  markd:
+    github: icyleaf/markd
     version: ~> 0.3
   crustache:
     github: MakeNowJust/crustache
     version: ~> 2.4
 
-crystal: 0.34.0
+crystal: 0.36.1
 
 license: BSD

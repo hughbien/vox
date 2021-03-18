@@ -4,13 +4,37 @@ Vox is a static site generator.
 
 > Daisy Fitzroy hears your voice! Join the Vox Populi!
 
-## Installation
+## Install
 
-To install:
+**Mac**
 
-* install [Crystal](https://crystal-lang.org/install/)
-* check out repo and run `make build`
-* binary will be at `bin/vox`
+```
+brew install hughbien/tap/vox
+```
+
+If you already have Crystal installed, use `--ignore-dependencies crystal`
+
+**Linux**
+
+Download the latest binary:
+
+```
+wget -O /usr/local/bin/vox https://github.com/hughbien/vox/releases/download/v0.1.1/vox-linux64
+chmod +x /usr/local/bin/vox
+```
+
+MD5 checksum is `502496a5c316db1a0db33a690860ce26`.
+
+**From Source**
+
+[Crystal](https://crystal-lang.org) is required. Checkout this repo, run `make` and `make install`:
+
+```
+git clone https://github.com/hughbien/vox.git
+cd vox
+make
+make install
+```
 
 ## Usage
 
@@ -57,11 +81,11 @@ root
 Use `make` for common tasks:
 
 ```
+make build                   # build `bin/vox` binary
+make build-static             # build static release for Linux
+make install                 # copy `bin/vox` binary into system bin (using $INSTALL_BIN)
 make spec                    # run all tests
 make spec ARGS=path/to/spec  # run single test
-make build                   # build `bin/vox` binary
-make install                 # copy `bin/vox` binary into system bin (using $INSTALL_BIN)
-make release                 # build releases for darwin/linux (requires docker)
 make clean                   # remove build artifacts and bin directory
 make run                     # run vox locally
 make run ARGS=-h             # run vox with local arguments
@@ -69,6 +93,7 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
+* fix rss html (mark as cdata or escape html)
 * add ability to inline/flatten db/frontmatter vars
 * fix scope of page vars, no need to pass huge assets/vars to all other pages
 * fix uglifyjs/css to work with asdf/.tools-versions 
@@ -88,10 +113,13 @@ make run ARGS=-h             # run vox with local arguments
 * add sitemap
 * add yaml tools for db/frontmatter: include, read, write
 * add bundling support: typescript, babel, scss
+* add cache, only regenerate pages that update
 * fix `excludes`/`render_excludes` for bundle files (js/css/etc...) to keep curly brackets
+* fix large asset size causes longer render time
+* fix speed up render time as fast as possible
 
 ## License
 
-Copyright 2020 Hugh Bien.
+Copyright 2021 Hugh Bien.
 
 Released under BSD License, see LICENSE for details.

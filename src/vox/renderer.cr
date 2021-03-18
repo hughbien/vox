@@ -1,12 +1,9 @@
 require "../vox"
 require "file_utils"
-require "common_marker"
+require "markd"
 require "crustache"
 
 class Vox::Renderer
-  EXTENSIONS = ["table", "strikethrough", "autolink", "tagfilter", "tasklist"]
-  OPTIONS = ["unsafe"]
-
   alias RenderType = String | Hash(String, Asset::Entry) | Hash(String, Fingerprint::Entry) | Hash(YAML::Any, YAML::Any) | Array(Hash(YAML::Any, YAML::Any))
 
   @config : Config
@@ -71,11 +68,7 @@ class Vox::Renderer
   end
 
   private def render_markdown(markdown : String, arguments)
-    CommonMarker.new(
-      render_mustache(markdown, arguments),
-      options: OPTIONS,
-      extensions: EXTENSIONS
-    ).to_html
+    Markd.to_html(render_mustache(markdown, arguments))
   end
 
   # TODO: support non-HTML layouts like XML/JSON

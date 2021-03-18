@@ -1,10 +1,10 @@
-version: 1.0
+version: 2.0
 shards:
-  common_marker:
-    github: mamantoha/crystal-cmark-gfm
-    version: 0.3.0
-
   crustache:
-    github: MakeNowJust/crustache
-    version: 2.4.1
+    git: https://github.com/MakeNowJust/crustache.git
+    version: 2.4.3
+
+  markd:
+    git: https://github.com/icyleaf/markd.git
+    version: 0.3.0
 

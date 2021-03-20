@@ -19,11 +19,11 @@ If you already have Crystal installed, use `--ignore-dependencies crystal`
 Download the latest binary:
 
 ```
-wget -O /usr/local/bin/vox https://github.com/hughbien/vox/releases/download/v0.1.1/vox-linux64
+wget -O /usr/local/bin/vox https://github.com/hughbien/vox/releases/download/v0.1.2/vox-linux-amd64
 chmod +x /usr/local/bin/vox
 ```
 
-MD5 checksum is `502496a5c316db1a0db33a690860ce26`.
+MD5 checksum is `9ec28ad7eac3ebc34f9c8ae9dee06f96`.
 
 **From Source**
 

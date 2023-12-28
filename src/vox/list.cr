@@ -131,7 +131,11 @@ class Vox::List
             <title>#{args["title"]}</title>
             <link>#{File.join(url, args["path"].as_s)}</link>
             <pubDate>#{date.to_s("%a, %d %b %Y 12:00:00 %z")}</pubDate>
-            <description>#{body}</description>
+            <description>
+              <![CDATA[
+                #{body}
+              ]]>
+            </description>
           </item>
         RSS
       )

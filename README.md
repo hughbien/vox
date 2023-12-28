@@ -93,7 +93,6 @@ make run ARGS=-h             # run vox with local arguments
 
 ## TODO
 
-* fix rss html (mark as cdata or escape html)
 * add ability to inline/flatten db/frontmatter vars
 * fix scope of page vars, no need to pass huge assets/vars to all other pages
 * fix uglifyjs/css to work with asdf/.tools-versions 

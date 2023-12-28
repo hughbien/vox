@@ -11,7 +11,7 @@ targets:
 dependencies:
   markd:
     github: icyleaf/markd
-    version: ~> 0.3
+    version: ~> 0.5
   crustache:
     github: MakeNowJust/crustache
     version: ~> 2.4
